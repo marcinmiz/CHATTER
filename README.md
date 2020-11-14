@@ -35,3 +35,9 @@ Note that you have to add absolute paths of executable files before all above ch
 You can run tests by running command `phpunit` in console.
 ##Status
 Project is: _in progress_
+##How to use?
+Open XAMPP and then start Apache and MySQL modules. Open browser and type localhost/{relative path from htdocs folder to project directory}.
+
+If you have an account, enter your e-mail address and password. Moreover, You may tick remember me to use this functionality. Finally, click log in button.
+
+If you don't have an account, click Register button. Next step is to fill and submit a form by clicking Register button. You obtained activation code in mail sent on given e-mail address. You have to enter them to activate your account and click Activate button. After successfully validation, you can sign in.
