@@ -14,3 +14,17 @@ Project is built with:
 #Features
 - Remember me functionality enable user to use their account after session expired until user does a logout
 - User can check if another user is active
+#Installation
+After git clone operation, you need to ensure you have php installed on your computer. If not, download it from [this site](https://www.php.net/downloads), unzip and follow installer.
+You can check whether php is installed by running `php -v` in console.
+ 
+ Next step is to install composer if you don't have one installed. One of the simplest ways to do that is downloading installer from [this site](https://getcomposer.org/download/).
+ You can check whether composer is installed by running `composer -v` in console.
+ 
+ Finally, install phpunit to the project directory by running this command in command prompt, where working directory is project directory: 
+ `composer require "phpunit/phpunit=4.3.*"`
+ 
+You can add absolute path of phpunit executable file to PATH environment variable. It permits to run phpunit in command prompt by typing `phpunit` instead of absolute path to executable file.
+You can check whether phpunit is installed by running `phpunit -v` in console.
+
+Note that you have to add absolute paths of executable files before all above checks to avoid using absolute paths to executable files in console.
