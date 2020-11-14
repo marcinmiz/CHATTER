@@ -33,3 +33,5 @@ phpunit.xml file is a configuration file for phpunit.
 Note that you have to add absolute paths of executable files before all above checks excluding phpunit to avoid using absolute paths to executable files in console.
 ##Tests
 You can run tests by running command `phpunit` in console.
+##Status
+Project is: _in progress_
