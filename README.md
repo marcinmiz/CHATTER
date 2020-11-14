@@ -24,7 +24,10 @@ You can check whether php is installed by running `php -v` in console.
  Finally, install phpunit to the project directory by running this command in command prompt, where working directory is project directory: 
  `composer require "phpunit/phpunit=4.3.*"`
  
-You can add absolute path of phpunit executable file to PATH environment variable. It permits to run phpunit in command prompt by typing `phpunit` instead of absolute path to executable file.
 You can check whether phpunit is installed by running `phpunit -v` in console.
 
-Note that you have to add absolute paths of executable files before all above checks to avoid using absolute paths to executable files in console.
+phpunit.xml file is a configuration file for phpunit.
+
+Note that you have to add absolute paths of executable files before all above checks excluding phpunit to avoid using absolute paths to executable files in console.
+#Tests
+You can run tests by running command `phpunit` in console.
