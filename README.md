@@ -16,6 +16,8 @@ Project is built with:
 - User can check if another user is active
 ##Installation
 After git clone operation, you need to install XAMPP. You can download installer from [this site](https://www.apachefriends.org/pl/download.html) and follow it. Move project directory to htdocs folder which is located in XAMPP installation folder. Then, every time you want to run project locally, you have to open this program and start Apache and MySQL Modules before you use application.
+
+Go to `http://localhost/phpmyadmin` in browser and create new database, for instance named `chat`. Select Import tab, choose db_chat file and execute to import structure of the database.
  
  Later, ensure you have php installed on your computer. If not, download it from [this site](https://www.php.net/downloads), unzip and follow installer.
 You can check whether php is installed by running `php -v` in console.
