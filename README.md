@@ -11,3 +11,6 @@ Project is built with:
 - PHP 7.3
 - composer 1.10.15
 - phpunit 4.3.5
+#Features
+- Remember me functionality enable user to use their account after session expired until user does a logout
+- User can check if another user is active
