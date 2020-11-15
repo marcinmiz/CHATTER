@@ -1,0 +1,8 @@
+body
+{
+    /* Background pattern from Toptal Subtle Patterns */
+    background-image: url("../../extras/img/congruent_outline.png");
+    color: #dfdfdf;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 17px;
+}
