@@ -42,11 +42,11 @@
                 <h3>Log in</h3>
                 <form action="" method="post">
 
-                    <input class="d-block mx-auto my-2 col-sm-10 col-md-6 col-lg-4 col-xl-3" type="email" placeholder="E-mail address" name="email"  autocomplete="off">
+                    <input class="d-block mx-auto my-2 initial col-sm-10 col-md-6 col-lg-4 col-xl-3" type="email" placeholder="E-mail address" name="email"  autocomplete="off">
 
-                    <input class="d-block mx-auto my-2 col-sm-10 col-md-6 col-lg-4 col-xl-3" type="password" placeholder="password" name="password"  autocomplete="off">
+                    <input class="d-block mx-auto my-2 initial col-sm-10 col-md-6 col-lg-4 col-xl-3" type="password" placeholder="password" name="password"  autocomplete="off">
 
-                    <input type="submit" class="d-block mx-auto my-2 col-sm-10 col-md-6 col-lg-4 col-xl-3" value="Log in">
+                    <input type="submit" class="d-block mx-auto my-2 login_button col-sm-10 col-md-6 col-lg-4 col-xl-3" value="Log in">
 
                     <label for="remember">
 
