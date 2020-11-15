@@ -15,13 +15,21 @@
 
     <link rel="stylesheet" href="../stylesheets/main.css">
 
+    <link rel="stylesheet" href="../stylesheets/login.css">
+
     <!--[if lt IE 9]-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
     <!--[endif]-->
 </head>
 <body>
 
+<header>
 
+    <div class="mainbar">
+        <a class="brand d-block mx-auto" href="index.php">CHATTER</a>
+    </div>
+
+</header>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
