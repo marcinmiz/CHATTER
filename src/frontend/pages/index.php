@@ -56,6 +56,12 @@
 
                 </form>
 
+                <a class="mt-2" href="#">Forgot password?</a>
+
+                <p class="mt-2">You don't have an account?</p>
+
+                <button class="my-2 mx-auto col-sm-10 col-md-6 col-lg-4 col-xl-3" onclick="location='register.php';">Register</button>
+
             </div>
 
         </div>
