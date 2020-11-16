@@ -9,6 +9,11 @@
     <meta http-equiv="X-Ua-Compatible" content="IE=edge">
 
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&amp;subset=latin-ext" rel="stylesheet">
+
+    <link rel="stylesheet" href="../stylesheets/main.css">
+
+    <link rel="stylesheet" href="../stylesheets/login.css">
+
     <!--[if lt IE 9]-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
     <!--[endif]-->
@@ -18,3 +23,4 @@
 
 
 </body>
+</html>
