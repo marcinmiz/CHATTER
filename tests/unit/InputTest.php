@@ -36,4 +36,23 @@ class InputTest extends TestCase
         $this->assertTrue(Input::exists('get'));
         unset($_GET['surname']);
     }
+
+    public function testIfItemNotExistNotFound()
+    {
+        $this->assertEquals('', Input::get('user_name'));
+    }
+
+    public function testIfPostItemExistFound()
+    {
+        $_POST['user_id'] = 1;
+        $this->assertEquals(1, Input::get('user_id'));
+        unset($_POST['user_id']);
+    }
+
+    public function testIfGetItemExistFound()
+    {
+        $_GET['user_name'] = 'Garfield';
+        $this->assertEquals('Garfield', Input::get('user_name'));
+        unset($_GET['user_name']);
+    }
 }
