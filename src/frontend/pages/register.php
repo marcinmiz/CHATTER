@@ -26,6 +26,71 @@
 
 <header id="mainbar"></header>
 
+<main>
+
+    <article>
+
+        <div class="container">
+
+            <div class="form_container" >
+
+                <h3>Register</h3>
+
+                <form action="" method="post">
+
+                    <div class="field">
+
+                        <input class="initial col-sm-10 col-md-6 col-lg-4 col-xl-3" type="text" name="user_name" id="user_name" placeholder="Name" autocomplete="off">
+
+                    </div>
+
+                    <div class="field">
+
+                        <input class="initial col-sm-10 col-md-6 col-lg-4 col-xl-3" type="text" name="surname" id="surname" placeholder="Surname" autocomplete="off">
+
+                    </div>
+
+                    <div class="field">
+
+                        <input class="initial col-sm-10 col-md-6 col-lg-4 col-xl-3" type="email" name="email" id="email" placeholder="E-mail" autocomplete="off">
+
+                    </div>
+
+                    <div class="field">
+
+                        <input class="initial col-sm-10 col-md-6 col-lg-4 col-xl-3" type="password" name="password" id="password" placeholder="Choose a password">
+
+                    </div>
+
+                    <div class="field">
+
+                        <input class="initial col-sm-10 col-md-6 col-lg-4 col-xl-3" type="password" name="password_again" id="password_again" placeholder="Enter your password again">
+
+                    </div>
+
+                    <div>
+
+                        <input class="my-2 mx-auto login_button col-sm-10 col-md-6 col-lg-4 col-xl-3" type="submit" value="Register">
+
+                    </div>
+
+                </form>
+
+                <div>
+
+                    <button class="my-2 mx-auto register_button col-sm-10 col-md-6 col-lg-4 col-xl-3" onclick="location='index.php';">
+                        Back to Login
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </article>
+
+</main>
 <script>
 
     async function getFile() {
