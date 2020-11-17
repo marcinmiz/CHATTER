@@ -1,3 +1,11 @@
+<?php
+require_once '../../core/init.php';
+if (\backend\model\Input::exists()) {
+    if (\backend\model\Token::check(\backend\model\Input::get('token')))
+    {
+    }
+}
+    ?>
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -67,6 +75,8 @@
                         <input class="initial col-sm-10 col-md-6 col-lg-4 col-xl-3" type="password" name="password_again" id="password_again" placeholder="Enter your password again">
 
                     </div>
+
+                    <input type="hidden" name="token" value="<?php echo \backend\model\Token::generate(); ?>">
 
                     <div>
 
