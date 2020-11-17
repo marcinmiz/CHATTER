@@ -55,4 +55,32 @@ class ValidateTest extends TestCase
         unset($_POST['email']);
     }
 
+    public function testFailWithMaxRule()
+    {
+        $items = array(
+            'email' => array(
+                'max' => 30,
+            )
+        );
+        $_POST['email'] = 'dueifksnjdieka3iwpqlkdosjieuajskqw@wp.pl';
+        $this->_validate->check($_POST, $items);
+        $this->assertContains("email must be a maximum of 30 characters.", $this->_validate->errors());
+        unset($_POST['email']);
+    }
+
+    public function testFailWithMatchesRule()
+    {
+        $items = array(
+            'password_again' => array(
+                'matches' => 'password',
+            )
+        );
+        $_POST['password'] = 'qwerty';
+        $_POST['password_again'] = 'asdfgh';
+        $this->_validate->check($_POST, $items);
+        $this->assertContains("password must match password_again", $this->_validate->errors());
+        unset($_POST['password']);
+        unset($_POST['password_again']);
+    }
+
 }
