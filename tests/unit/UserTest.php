@@ -17,6 +17,7 @@ class UserTest extends TestCase
             ->addMethods(['count'])
             ->addMethods(['first'])
             ->addMethods(['delete'])
+            ->addMethods(['insert'])
             ->getMock();
 
         $this->mockPeople = new \stdClass();
@@ -45,6 +46,7 @@ class UserTest extends TestCase
 
         $this->dbMock->method('get')->willReturn($this->dbMock);
         $this->dbMock->method('delete')->willReturn($this->dbMock);
+        $this->dbMock->method('insert')->willReturn(false);
         $this->user = new User(null, $this->dbMock);
     }
 
@@ -99,4 +101,8 @@ class UserTest extends TestCase
         $this->assertTrue($this->user->find('max@yahoo.com'));
     }
 
+    public function testIfThrowExceptionCreatingUser () {
+        $this->expectException(Exception::class);
+        $this->user->create(array('Nicolas', 'Miko', 'nicolas.miko@gmail.com'));
+    }
 }
