@@ -79,4 +79,12 @@ class DB
         return $this->_count;
     }
 
+    public function first() {
+        return $this->results()[0];
+    }
+
+    public function delete($table, $where) {
+        return $this->action('DELETE', $table, $where);
+    }
+
 }
