@@ -1,6 +1,6 @@
 # Created by .ignore support plugin (hsz.mobi)
 .idea/
-CHAT.iml
+CHATTER.iml
 composer.json
 composer.lock
 vendor/

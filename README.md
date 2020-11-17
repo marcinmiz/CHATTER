@@ -22,6 +22,17 @@ Go to `http://localhost/phpmyadmin` in browser and create new database, for inst
  Later, ensure you have php installed on your computer. If not, download it from [this site](https://www.php.net/downloads), unzip and follow installer.
 You can check whether php is installed by running `php -v` in console.
  
+ After you installed php, open settings in your IDE, find languages settings, php language and set PHP interpreter as absolute path to php executable file. Then, open php.ini file and remove or comment out the following lines:
+ `zend_extension=<path_to_zend_debugger>
+  zend_extension=<path_to_zend_optimizer>`
+  
+  Locate or create [xdebug] section in the php.ini file and update it as follows:
+ `[xdebug]
+  zend_extension="<path to xdebug extension>"
+  xdebug.remote_enable=1
+  xdebug.remote_port="<the port for Xdebug to listen to>" (the default port is 9000)`
+  Finally, you can run command `php --version` in the command line. Output should contain following line `with Xdebug v2.9.8, Copyright (c) 2002-2020, by Derick Rethans`.
+ 
  Next step is to install composer if you don't have one installed. One of the simplest ways to do that is downloading installer from [this site](https://getcomposer.org/download/).
  You can check whether composer is installed by running `composer -v` in console.
  
