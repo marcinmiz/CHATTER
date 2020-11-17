@@ -70,4 +70,24 @@ class User
         }
     }
 
+    public function send_mail($to_email, $activation_token) {
+
+        $subject = "Account Activation Code";
+
+        $headers = "From: Web chat App \r\n";
+        $headers .= "Reply-To: abc@abc.com \r\n";
+        $headers .= "CC: abc@abc.com \r\n";
+        $headers .= "MIME-Version: 1.0 \r\n";
+        $headers .= "Content-Type: text/html; charset=UTF-8 \r\n";
+        $message = '<html><body>';
+        $message .= '<h1>Your Activation Code</h1>';
+        $message .= '<h3>' . $activation_token . '</h3>';
+        $message .= '</body></html>';
+
+        if (mail($to_email, $subject, $message, $headers)) {
+            echo "Email successfully sent to $to_email...";
+        } else {
+            echo "Email sending failed...";
+        }
+    }
 }
