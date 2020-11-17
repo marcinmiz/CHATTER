@@ -29,4 +29,30 @@ class ValidateTest extends TestCase
         $this->assertTrue($this->_validate->passed());
     }
 
+    public function testFailWithRequireRule()
+    {
+        $items = array(
+            'email' => array(
+                'required' => true,
+            )
+        );
+        $_POST['email'] = '';
+        $this->_validate->check($_POST, $items);
+        $this->assertContains("email is required", $this->_validate->errors());
+        unset($_POST['email']);
+    }
+
+    public function testFailWithMinRule()
+    {
+        $items = array(
+            'email' => array(
+                'min' => 10,
+            )
+        );
+        $_POST['email'] = 'qw@wp.pl';
+        $this->_validate->check($_POST, $items);
+        $this->assertContains("email must be a minimum of 10 characters.", $this->_validate->errors());
+        unset($_POST['email']);
+    }
+
 }
