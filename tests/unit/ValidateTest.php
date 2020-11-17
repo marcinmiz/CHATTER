@@ -83,4 +83,37 @@ class ValidateTest extends TestCase
         unset($_POST['password_again']);
     }
 
+    public function testFailWithUniqueRule()
+    {
+        $this->_db->method('count')->willReturn(1);
+        $items = array(
+            'email' => array(
+                'unique' => 'users',
+            )
+        );
+        $_POST['email'] = 'Cindy@gmail.com';
+        $this->_validate->check($_POST, $items);
+        $this->assertContains("email already exists.", $this->_validate->errors());
+        unset($_POST['email']);
+    }
+
+    public function testPassWithAllRules()
+    {
+        $this->_db->method('count')->willReturn(0);
+        $items = array(
+            'password_again' => array(
+                'required' => true,
+                'min' => 2,
+                'max' => 40,
+                'unique' => 'users',
+                'matches' => 'password'
+            )
+        );
+        $_POST['password'] = 'gyrvnx';
+        $_POST['password_again'] = 'gyrvnx';
+        $this->_validate->check($_POST, $items);
+        $this->assertTrue($this->_validate->passed());
+        unset($_POST['password']);
+        unset($_POST['password_again']);
+    }
 }
