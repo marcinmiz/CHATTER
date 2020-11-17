@@ -70,4 +70,13 @@ class DB
 
         return null;
     }
+
+    public function get($table, $where) {
+        return $this->action('SELECT *', $table, $where);
+    }
+
+    public  function count() {
+        return $this->_count;
+    }
+
 }
