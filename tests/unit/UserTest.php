@@ -85,4 +85,18 @@ class UserTest extends TestCase
         $this->assertFalse($this->user->find(5));
     }
 
+    public function testUserFoundById()
+    {
+        $this->dbMock->method('count')->willReturn(1);
+        $this->dbMock->method('first')->willReturn($this->mockPeople->users_data[0]);
+        $this->assertTrue($this->user->find(1));
+    }
+
+    public function testUserFoundByEmail()
+    {
+        $this->dbMock->method('count')->willReturn(1);
+        $this->dbMock->method('first')->willReturn($this->mockPeople->users_data[2]);
+        $this->assertTrue($this->user->find('max@yahoo.com'));
+    }
+
 }
