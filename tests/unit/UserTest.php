@@ -48,4 +48,30 @@ class UserTest extends TestCase
         $this->user = new User(null, $this->dbMock);
     }
 
+    public function testCurrentLoggedUserFound()
+    {
+        $_SESSION['user'] = 1;
+        $this->dbMock->method('count')->willReturn(1);
+        $this->dbMock->method('first')->willReturn($this->mockPeople->users_data[0]);
+        $this->user = new User(null, $this->dbMock);
+        self::assertTrue(isset($_SESSION['user']));
+        self::assertTrue($this->user->isLoggedIn());
+        unset($_SESSION['user']);
+    }
+
+    /**
+     * @test
+     * @runInSeparateProcess
+     * @requires extension xdebug
+     **/
+    public function testCurrentLoggedUserNotFound()
+    {
+        $_SESSION['user'] = 2;
+        $this->dbMock->method('count')->willReturn(0);
+        $this->user = new User(null, $this->dbMock);
+        self::assertFalse(isset($_SESSION['user']));
+        self::assertFalse($this->user->isLoggedIn());
+        unset($_SESSION['user']);
+    }
+
 }
