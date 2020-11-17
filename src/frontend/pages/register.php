@@ -3,6 +3,33 @@ require_once '../../core/init.php';
 if (\backend\model\Input::exists()) {
     if (\backend\model\Token::check(\backend\model\Input::get('token')))
     {
+        $validate = new \backend\model\Validate();
+        $validation = $validate->check($_POST, array(
+            'user_name' => array(
+                'required' => true,
+                'min' => 2,
+                'max' => 40,
+            ),
+            'surname' => array(
+                'required' => true,
+                'min' => 2,
+                'max' => 40
+            ),
+            'email' => array(
+                'required' => true,
+                'min' => 2,
+                'max' => 40,
+                'unique' => 'users'
+            ),
+            'password' => array(
+                'required' => true,
+                'min' => 6
+            ),
+            'password_again' => array(
+                'required' => true,
+                'matches' => 'password'
+            )
+        ));
     }
 }
     ?>
