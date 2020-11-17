@@ -74,4 +74,15 @@ class UserTest extends TestCase
         unset($_SESSION['user']);
     }
 
+    public function testNullUserNotFound()
+    {
+        $this->assertFalse($this->user->find(null));
+    }
+
+    public function testUserNotFoundById()
+    {
+        $this->dbMock->method('count')->willReturn(0);
+        $this->assertFalse($this->user->find(5));
+    }
+
 }
