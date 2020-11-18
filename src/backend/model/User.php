@@ -100,5 +100,43 @@ class User
         }
     }
 
+    public function login($email = null, $password = null, $remember = false) {
 
+            $user = $this->find($email);
+            if ($user) {
+                if (Hash::verify($password, $this->data()->password)) {
+                    if ($this->data()->account_active != true) {
+                        Session::flash('registration', 'Your account has not been activated yet!');
+                        Redirect::to('activate.php');
+                        return false;
+
+                    }
+                    Session::put($this->_sessionName, $this->data()->user_id);
+                    if ($remember) {
+                        $hash = Hash::unique();
+                        $hashCheck = $this->_db->get('users_sessions', array('user_id', '=', $this->data()->user_id));
+
+                        if (!$hashCheck->count()) {
+
+                            $this->_db->insert('users_sessions', array(
+                                'user_id' => $this->data()->user_id,
+                                'hash' => $hash
+                            ));
+                        } else {
+                            $hash = $hashCheck->first()->hash;
+
+                        }
+
+                        Cookie::put($this->_cookieName, $hash, Config::get('remember/cookie_expiry'));
+                    }
+                    return true;
+                }
+            }
+
+        return false;
+    }
+
+    public function exists() {
+        return (!empty($this->_data)) ? true : false;
+    }
 }
