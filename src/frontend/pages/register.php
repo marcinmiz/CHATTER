@@ -53,19 +53,19 @@ require_once '../../core/init.php';
 
                     <div class="field">
 
-                        <input class="initial col-sm-10 col-md-6 col-lg-4 col-xl-3" type="text" name="user_name" id="user_name" placeholder="Name" autocomplete="off">
+                        <input class="initial col-sm-10 col-md-6 col-lg-4 col-xl-3" type="text" name="user_name" id="user_name" placeholder="Name" value="<?php echo escape(\backend\model\Input::get('user_name'));?>" autocomplete="off">
 
                     </div>
 
                     <div class="field">
 
-                        <input class="initial col-sm-10 col-md-6 col-lg-4 col-xl-3" type="text" name="surname" id="surname" placeholder="Surname" autocomplete="off">
+                        <input class="initial col-sm-10 col-md-6 col-lg-4 col-xl-3" type="text" name="surname" id="surname" placeholder="Surname" value="<?php echo escape(\backend\model\Input::get('surname'));?>" autocomplete="off">
 
                     </div>
 
                     <div class="field">
 
-                        <input class="initial col-sm-10 col-md-6 col-lg-4 col-xl-3" type="email" name="email" id="email" placeholder="E-mail" autocomplete="off">
+                        <input class="initial col-sm-10 col-md-6 col-lg-4 col-xl-3" type="email" name="email" id="email" placeholder="E-mail" value="<?php echo escape(\backend\model\Input::get('email'));?>" autocomplete="off">
 
                     </div>
 
