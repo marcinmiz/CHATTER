@@ -1,3 +1,6 @@
+<?php
+    require_once '../../core/init.php';
+?>
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -20,6 +23,15 @@
     <!--[if lt IE 9]-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
     <!--[endif]-->
+
+    <style>
+        #notification
+        {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+    </style>
+
 </head>
 <body>
 
@@ -33,10 +45,12 @@
 
             <div class="form_container">
 
+                <div id="notification"></div>
+
                 <h3>Log in</h3>
                 <form action="" method="post">
 
-                    <input class="d-block mx-auto my-2 initial col-sm-10 col-md-6 col-lg-4 col-xl-3" type="email" placeholder="E-mail address" name="email"  autocomplete="off">
+                    <input class="d-block mx-auto my-2 initial col-sm-10 col-md-6 col-lg-4 col-xl-3" type="email" placeholder="E-mail address" name="email" value="<?php echo escape(\backend\model\Input::get('email'));?>"  autocomplete="off">
 
                     <input class="d-block mx-auto my-2 initial col-sm-10 col-md-6 col-lg-4 col-xl-3" type="password" placeholder="password" name="password"  autocomplete="off">
 
@@ -47,6 +61,20 @@
                         <input type="checkbox" name="remember" id="remember"> Remember me
 
                     </label>
+
+                    <?php
+
+if (\backend\model\Session::exists('activation')) {
+    $activation_message = \backend\model\Session::flash('activation');
+    echo <<< END
+<script>
+    document.getElementById('notification').append("$activation_message");
+    var br = document.createElement("br");
+    document.getElementById('notification').appendChild(br);
+</script>
+END;
+}
+?>
 
                 </form>
 
