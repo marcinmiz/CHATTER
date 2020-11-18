@@ -75,8 +75,7 @@ class User
         $subject = "Account Activation Code";
 
         $headers = "From: Web chat App \r\n";
-        $headers .= "Reply-To: abc@abc.com \r\n";
-        $headers .= "CC: abc@abc.com \r\n";
+        $headers .= "Reply-To: noreply@gmail.com \r\n";
         $headers .= "MIME-Version: 1.0 \r\n";
         $headers .= "Content-Type: text/html; charset=UTF-8 \r\n";
         $message = '<html><body>';
@@ -85,9 +84,9 @@ class User
         $message .= '</body></html>';
 
         if (mail($to_email, $subject, $message, $headers)) {
-            echo "Email successfully sent to $to_email...";
+            return true;
         } else {
-            echo "Email sending failed...";
+            return false;
         }
     }
 }

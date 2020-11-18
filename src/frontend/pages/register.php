@@ -1,63 +1,6 @@
 <?php
 require_once '../../core/init.php';
-if (\backend\model\Input::exists()) {
-    if (\backend\model\Token::check(\backend\model\Input::get('token')))
-    {
-        $validate = new \backend\model\Validate();
-        $validation = $validate->check($_POST, array(
-            'user_name' => array(
-                'required' => true,
-                'min' => 2,
-                'max' => 40,
-            ),
-            'surname' => array(
-                'required' => true,
-                'min' => 2,
-                'max' => 40
-            ),
-            'email' => array(
-                'required' => true,
-                'min' => 2,
-                'max' => 40,
-                'unique' => 'users'
-            ),
-            'password' => array(
-                'required' => true,
-                'min' => 6
-            ),
-            'password_again' => array(
-                'required' => true,
-                'matches' => 'password'
-            )
-        ));
-
-        if ($validation->passed()) {
-            $email = \backend\model\Input::get('email');
-            $user = new \backend\model\User($email);
-
-            try{
-                $user->create(array(
-                    'user_name' => \backend\model\Input::get('user_name'),
-                    'surname' => \backend\model\Input::get('surname'),
-                    'email' => \backend\model\Input::get('email'),
-                    'password' => \backend\model\Hash::make(\backend\model\Input::get('password')),
-                    'activation_token' => bin2hex(random_bytes(4)),
-                    'account_active' => false,
-                    'joined' => date('Y-m-d H:i:s'),
-                    'last_activity' => date('Y-m-d H:i:s'),
-                ));
-            } catch (Exception $e) {
-                die($e->getMessage());
-            }
-        } else {
-            foreach ($validation->errors() as $error) {
-                echo $error, '<br>';
-            }
-        }
-    }
-
-}
-    ?>
+?>
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -81,6 +24,14 @@ if (\backend\model\Input::exists()) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
     <!--[endif]-->
 
+    <style>
+        #notification
+        {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+    </style>
+
 </head>
 <body>
 
@@ -92,7 +43,9 @@ if (\backend\model\Input::exists()) {
 
         <div class="container">
 
-            <div class="form_container" >
+            <div class="form_container">
+
+                <div id="notification"></div>
 
                 <h3>Register</h3>
 
@@ -127,7 +80,94 @@ if (\backend\model\Input::exists()) {
                         <input class="initial col-sm-10 col-md-6 col-lg-4 col-xl-3" type="password" name="password_again" id="password_again" placeholder="Enter your password again">
 
                     </div>
+                    <?php
+                    if (\backend\model\Input::exists()) {
+                        if (\backend\model\Token::check(\backend\model\Input::get('token')))
+                        {
+                            $validate = new \backend\model\Validate();
+                            $validation = $validate->check($_POST, array(
+                                'user_name' => array(
+                                    'required' => true,
+                                    'min' => 2,
+                                    'max' => 40,
+                                ),
+                                'surname' => array(
+                                    'required' => true,
+                                    'min' => 2,
+                                    'max' => 40
+                                ),
+                                'email' => array(
+                                    'required' => true,
+                                    'min' => 2,
+                                    'max' => 40,
+                                    'unique' => 'users'
+                                ),
+                                'password' => array(
+                                    'required' => true,
+                                    'min' => 6
+                                ),
+                                'password_again' => array(
+                                    'required' => true,
+                                    'matches' => 'password'
+                                )
+                            ));
 
+                            if ($validation->passed())
+                            {
+echo <<< END
+<script>
+    document.getElementById('notification').innerText = "Sending ...";
+</script>
+END;
+
+                                $user = new \backend\model\User();
+
+                                try{
+                                    $user->create(array(
+                                        'user_name' => \backend\model\Input::get('user_name'),
+                                        'surname' => \backend\model\Input::get('surname'),
+                                        'email' => \backend\model\Input::get('email'),
+                                        'password' => \backend\model\Hash::make(\backend\model\Input::get('password')),
+                                        'activation_token' => bin2hex(random_bytes(4)),
+                                        'account_active' => false,
+                                        'joined' => date('Y-m-d H:i:s'),
+                                        'last_activity' => date('Y-m-d H:i:s'),
+                                    ));
+                                    $email = \backend\model\Input::get('email');
+                                    $user = new \backend\model\User($email);
+                                    \backend\model\Session::put('new_user_email', $email);
+
+                                    if($user->send_mail($user->data()->email, $user->data()->activation_token)) {
+                                        echo <<< END
+<script>
+    document.getElementById('notification').innerText = "Email successfully sent to $email...";
+</script>
+END;
+                                    } else {
+                                        echo <<< END
+<script>
+    document.getElementById('notification').innerText = "Email sending failed...";
+</script>
+END;
+                                    }
+                                } catch (Exception $e) {
+                                    die($e->getMessage());
+                                }
+                            } else {
+                                foreach ($validation->errors() as $error) {
+                                    echo <<< END
+<script>
+    document.getElementById('notification').append("$error");
+    var br = document.createElement("br");
+    document.getElementById('notification').appendChild(br);
+</script>
+END;
+                                }
+                            }
+                        }
+
+                    }
+                    ?>
                     <input type="hidden" name="token" value="<?php echo \backend\model\Token::generate(); ?>">
 
                     <div>
@@ -153,6 +193,7 @@ if (\backend\model\Input::exists()) {
     </article>
 
 </main>
+
 <script>
 
     async function getFile() {
