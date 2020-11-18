@@ -153,4 +153,32 @@ class UserTest extends TestCase
         $this->assertFalse(false, $this->user->login($email, $password, $remember));
     }
 
+    /**
+     * @test
+     * @runInSeparateProcess
+     * @requires extension xdebug
+     **/
+    public function testLoginInactiveAccount() {
+        $this->dbMock->method('count')->willReturn(1);
+        $this->dbMock->method('first')->willReturn($this->mockPeople->users_data[2]);
+        $email = 'max@yahoo.com';
+        $password = 'qwerty';
+        $remember = false;
+        $this->assertFalse(false, $this->user->login($email, $password, $remember));
+        $this->assertEquals('Your account has not been activated yet!', \backend\model\Session::flash('registration'));
+        $this->assertContains(
+            'Location: activate.php', xdebug_get_headers()
+        );
+    }
+
+    public function testLoginActiveAccountWithoutRememberMe() {
+        $this->mockPeople->users_data[2]->account_active = true;
+        $this->dbMock->method('count')->willReturn(1);
+        $this->dbMock->method('first')->willReturn($this->mockPeople->users_data[2]);
+        $email = 'max@yahoo.com';
+        $password = 'qwerty';
+        $remember = false;
+        $this->assertTrue(true, $this->user->login($email, $password, $remember));
+        $this->assertTrue(true, \backend\model\Session::exists('user'));
+    }
 }
