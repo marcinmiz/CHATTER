@@ -20,6 +20,47 @@
 
 <header id="mainbar"></header>
 
+<main>
+
+    <article>
+
+        <div class="container">
+
+            <div class="form_container">
+
+                <div class="card bg bg-dark mx-auto my-1 col-sm-10 col-md-6">
+
+                    <div class="card-header">
+                        Activate your Account
+                    </div>
+
+                    <div class="card-block p-4">
+
+                        <form action="" method="post">
+
+                            <input class="d-block initial mx-auto mt-1 mb-3 col-sm-12" type="text" id="activation_code" name="activation_code" placeholder="Enter activation code"  autocomplete="off">
+
+                            <input type="submit" class="d-block login_button mx-auto my-3 col-sm-12" value="Activate">
+
+                        </form>
+
+                    </div>
+
+                    <div class="card-footer text-muted text-left">
+                        <p>We have sent you a mail, kindly activate your account</p>
+                        <p>You can copy and paste the code in above field.</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </article>
+
+</main>
+
 <script>
 
     async function getFile() {
