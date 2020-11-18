@@ -79,7 +79,16 @@ if (\backend\model\Session::exists('registration')) {
 </script>
 END;
                             }
+
+if (\backend\model\Input::exists('post')) {
+    if (\backend\model\Token::check(\backend\model\Input::get('token'))) {
+
+    }
+}
+
 ?>
+                            <input type="hidden" name="token" value="<?php echo \backend\model\Token::generate(); ?>">
+
                         </form>
 
                     </div>
