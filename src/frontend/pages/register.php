@@ -138,12 +138,9 @@ END;
                                     \backend\model\Session::put('new_user_email', $email);
 
                                     if($user->send_mail($user->data()->email, $user->data()->activation_token)) {
-                                        echo <<< END
-<script>
-    document.getElementById('notification').innerText = "Email successfully sent to $email...";
-</script>
-END;
-                                        \backend\model\Session::flash('registration', 'You have been registered but an account has to be activated!');
+
+\backend\model\Session::flash('registration', 'You have been registered but an account has to be activated!');
+                                        \backend\model\Session::flash('email_sent', "Email successfully sent to $email...");
                                         \backend\model\Redirect::to('activate.php');
 
                                     } else {

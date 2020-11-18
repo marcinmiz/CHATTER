@@ -57,11 +57,25 @@ require_once '../../core/init.php';
 
                             <input type="submit" class="d-block login_button mx-auto my-3 col-sm-12" value="Activate">
 <?php
-                            if (\backend\model\Session::exists('registration')) {
+
+if (\backend\model\Session::exists('email_sent')) {
+    $email_sent_message = \backend\model\Session::flash('email_sent');
+    echo <<< END
+<script>
+    document.getElementById('notification').append("$email_sent_message");
+    var br = document.createElement("br");
+    document.getElementById('notification').appendChild(br);
+</script>
+END;
+}
+
+if (\backend\model\Session::exists('registration')) {
                                 $registration_message = \backend\model\Session::flash('registration');
                                 echo <<< END
 <script>
-    document.getElementById('notification').innerText = "$registration_message";
+    document.getElementById('notification').append("$registration_message");
+    var br = document.createElement("br");
+    document.getElementById('notification').appendChild(br);
 </script>
 END;
                             }
