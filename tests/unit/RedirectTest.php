@@ -15,9 +15,9 @@ class RedirectTest extends TestCase
      **/
     public function testDoRedirection()
     {
-        Redirect::to("http://localhost/CHATTER/src/frontend/pages/register.php");
+        Redirect::to("register.php");
         $this->assertContains(
-            'Location: http://localhost/CHATTER/src/frontend/pages/register.php', xdebug_get_headers()
+            'Location: register.php', xdebug_get_headers()
         );
     }
 

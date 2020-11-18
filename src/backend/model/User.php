@@ -89,4 +89,16 @@ class User
             return false;
         }
     }
+
+    public function activate($activation_code) {
+        $email = $this->data()->email;
+        if (!$this->_db->query("UPDATE users SET account_active=? WHERE email='{$email}' AND activation_token='{$activation_code}'", array(true))->error()) {
+            Session::flash('activation', 'You have activated an account!');
+            Redirect::to('index.php');
+        } else {
+            Session::flash('wrong_code', 'Wrong Activation Code');
+        }
+    }
+
+
 }
