@@ -31,7 +31,7 @@ class UserTest extends TestCase
         $this->mockPeople->users_data[0]->email = 'marley@gmail.com';
         $this->mockPeople->users_data[0]->password = '$2y$10$CNSDDKDnqIxuKl2Pj496TO8iniFtcKRPd3OaxyRjzi6jlOpH3ValS';
         $this->mockPeople->users_data[0]->activation_token = 'eufih3';
-        $this->mockPeople->users_data[0]->account_active = 'true';
+        $this->mockPeople->users_data[0]->account_active = true;
         $this->mockPeople->users_data[0]->joined = '2020-10-27 18:26:33';
         $this->mockPeople->users_data[0]->last_activity = '2020-11-11 17:02:42';
 
@@ -40,9 +40,9 @@ class UserTest extends TestCase
         $this->mockPeople->users_data[2]->user_name = 'Max';
         $this->mockPeople->users_data[2]->surname = 'Maximowicz';
         $this->mockPeople->users_data[2]->email = 'max@yahoo.com';
-        $this->mockPeople->users_data[2]->password = '$2y$10$fYXx3G9L5TygIvGfozvYD.ibv1vbXAvNTZEIxjDOWvyEG3NVld5YK';
+        $this->mockPeople->users_data[2]->password = '$2y$10$awYyCZUv19shfZ25S.ieounGNzitgz1IhFvxfjtHnykv.5aGgIpHa';
         $this->mockPeople->users_data[2]->activation_token = '5ehd5dg9';
-        $this->mockPeople->users_data[2]->account_active = 'true';
+        $this->mockPeople->users_data[2]->account_active = false;
         $this->mockPeople->users_data[2]->joined = '2020-10-30 18:34:49';
         $this->mockPeople->users_data[2]->last_activity = '2020-11-12 16:20:00';
 
@@ -135,4 +135,22 @@ class UserTest extends TestCase
         $user2->activate('r372rdiwo');
         $this->assertEquals('Wrong Activation Code', \backend\model\Session::flash('wrong_code'));
     }
+
+    public function testLoginWithIncorrectEmail() {
+        $this->dbMock->method('count')->willReturn(0);
+        $email = 'sylvester@onet.pl';
+        $password = 'ndowqfnwef';
+        $remember = 'false';
+        $this->assertFalse(false, $this->user->login($email, $password, $remember));
+    }
+
+    public function testLoginWithIncorrectPassword() {
+        $this->dbMock->method('count')->willReturn(1);
+        $this->dbMock->method('first')->willReturn($this->mockPeople->users_data[2]);
+        $email = 'max@yahoo.com';
+        $password = 'ndowqfnwef';
+        $remember = 'false';
+        $this->assertFalse(false, $this->user->login($email, $password, $remember));
+    }
+
 }
