@@ -30,7 +30,21 @@ if (\backend\model\Input::exists()) {
                 'matches' => 'password'
             )
         ));
+
+        if ($validation->passed()) {
+            $user = new \backend\model\User();
+
+            try{
+            } catch (Exception $e) {
+                die($e->getMessage());
+            }
+        } else {
+            foreach ($validation->errors() as $error) {
+                echo $error, '<br>';
+            }
+        }
     }
+
 }
     ?>
 <!DOCTYPE html>
