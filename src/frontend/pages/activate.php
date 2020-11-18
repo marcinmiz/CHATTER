@@ -18,5 +18,25 @@
 </head>
 <body>
 
+<header id="mainbar"></header>
+
+<script>
+
+    async function getFile() {
+        let basicMainbarPromise = new Promise(function(basicMainbarResolve, basicMainbarReject) {
+            let req = new XMLHttpRequest();
+            req.open('GET', "basic_mainbar.html");
+            req.onload = function() {
+                if (req.status == 200) {basicMainbarResolve(req.response);}
+                else {basicMainbarReject("File not Found");}
+            };
+            req.send();
+        });
+        document.getElementById('mainbar').innerHTML  = await basicMainbarPromise;
+    }
+    getFile();
+
+</script>
+
 </body>
 </html>
