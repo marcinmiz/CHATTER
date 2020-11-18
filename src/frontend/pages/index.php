@@ -70,7 +70,26 @@
     if (\backend\model\Input::exists())
     {
         if (\backend\model\Token::check(\backend\model\Input::get('token'))) {
+            $validate = new \backend\model\Validate();
+            $validation = $validate->check($_POST, array(
+                'email' => array('required' => true),
+                'password' => array('required' => true)
+            ));
 
+            if ($validation->passed()) {
+                $user = new \backend\model\User();
+
+            } else {
+                foreach ($validation->errors() as $error) {
+echo <<< END
+<script>
+    document.getElementById('notification').append("$error");
+    var br = document.createElement("br");
+    document.getElementById('notification').appendChild(br);
+</script>
+END;
+            }
+        }
     }
 }
 if (\backend\model\Session::exists('activation')) {
