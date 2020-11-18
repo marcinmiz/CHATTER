@@ -79,6 +79,10 @@ class DB
         return $this->_count;
     }
 
+    public function results() {
+        return $this->_results;
+    }
+
     public function first() {
         return $this->results()[0];
     }
@@ -87,4 +91,29 @@ class DB
         return $this->action('DELETE', $table, $where);
     }
 
+    public function insert($table, $fields = array()) {
+        $keys = array_keys($fields);
+        $values = '';
+        $x = 1;
+
+        foreach ($fields as $field) {
+            $values .= "?";
+            if ($x < count($fields)) {
+                $values .= ',';
+            }
+            $x++;
+        }
+
+        $sql = "INSERT INTO ". $table . " (`" . implode('`,`', $keys) . "`) VALUES ({$values})";
+
+        if (!$this->query($sql, $fields)->error()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function error() {
+        return $this->_error;
+    }
 }
