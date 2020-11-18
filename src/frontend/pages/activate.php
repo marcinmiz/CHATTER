@@ -82,7 +82,8 @@ END;
 
 if (\backend\model\Input::exists('post')) {
     if (\backend\model\Token::check(\backend\model\Input::get('token'))) {
-
+        $user = new \backend\model\User(\backend\model\Session::get('new_user_email'));
+        $user->activate(\backend\model\Input::get('activation_code'));
     }
 }
 
