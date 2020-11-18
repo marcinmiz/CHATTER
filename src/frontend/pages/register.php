@@ -32,9 +32,20 @@ if (\backend\model\Input::exists()) {
         ));
 
         if ($validation->passed()) {
-            $user = new \backend\model\User();
+            $email = \backend\model\Input::get('email');
+            $user = new \backend\model\User($email);
 
             try{
+                $user->create(array(
+                    'user_name' => \backend\model\Input::get('user_name'),
+                    'surname' => \backend\model\Input::get('surname'),
+                    'email' => \backend\model\Input::get('email'),
+                    'password' => \backend\model\Hash::make(\backend\model\Input::get('password')),
+                    'activation_token' => bin2hex(random_bytes(4)),
+                    'account_active' => false,
+                    'joined' => date('Y-m-d H:i:s'),
+                    'last_activity' => date('Y-m-d H:i:s'),
+                ));
             } catch (Exception $e) {
                 die($e->getMessage());
             }
