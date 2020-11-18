@@ -143,6 +143,9 @@ END;
     document.getElementById('notification').innerText = "Email successfully sent to $email...";
 </script>
 END;
+                                        \backend\model\Session::flash('registration', 'You have been registered but an account has to be activated!');
+                                        \backend\model\Redirect::to('activate.php');
+
                                     } else {
                                         echo <<< END
 <script>

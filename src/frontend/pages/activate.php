@@ -1,3 +1,8 @@
+<?php
+
+require_once '../../core/init.php';
+
+?>
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -15,6 +20,14 @@
 
     <link rel="stylesheet" href="../stylesheets/login.css">
 
+    <style>
+        #notification
+        {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+    </style>
+
 </head>
 <body>
 
@@ -27,6 +40,8 @@
         <div class="container">
 
             <div class="form_container">
+
+                <div id="notification"></div>
 
                 <div class="card bg bg-dark mx-auto my-1 col-sm-10 col-md-6">
 
@@ -41,7 +56,16 @@
                             <input class="d-block initial mx-auto mt-1 mb-3 col-sm-12" type="text" id="activation_code" name="activation_code" placeholder="Enter activation code"  autocomplete="off">
 
                             <input type="submit" class="d-block login_button mx-auto my-3 col-sm-12" value="Activate">
-
+<?php
+                            if (\backend\model\Session::exists('registration')) {
+                                $registration_message = \backend\model\Session::flash('registration');
+                                echo <<< END
+<script>
+    document.getElementById('notification').innerText = "$registration_message";
+</script>
+END;
+                            }
+?>
                         </form>
 
                     </div>
