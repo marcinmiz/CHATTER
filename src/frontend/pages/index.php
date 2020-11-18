@@ -1,5 +1,5 @@
 <?php
-    require_once '../../core/init.php';
+    require_once '../../core/init.php'
 ?>
 <!DOCTYPE html>
 <html lang="pl">
@@ -14,7 +14,8 @@
 
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&amp;subset=latin-ext" rel="stylesheet">
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+          integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 
     <link rel="stylesheet" href="../stylesheets/main.css">
 
@@ -25,8 +26,7 @@
     <!--[endif]-->
 
     <style>
-        #notification
-        {
+        #notification {
             text-align: center;
             margin-bottom: 25px;
         }
@@ -50,11 +50,15 @@
                 <h3>Log in</h3>
                 <form action="" method="post">
 
-                    <input class="d-block mx-auto my-2 initial col-sm-10 col-md-6 col-lg-4 col-xl-3" type="email" placeholder="E-mail address" name="email" value="<?php echo escape(\backend\model\Input::get('email'));?>"  autocomplete="off">
+                    <input class="d-block mx-auto my-2 initial col-sm-10 col-md-6 col-lg-4 col-xl-3" type="email"
+                           placeholder="E-mail address" name="email"
+                           value="<?php echo escape(\backend\model\Input::get('email')); ?>" autocomplete="off">
 
-                    <input class="d-block mx-auto my-2 initial col-sm-10 col-md-6 col-lg-4 col-xl-3" type="password" placeholder="password" name="password"  autocomplete="off">
+                    <input class="d-block mx-auto my-2 initial col-sm-10 col-md-6 col-lg-4 col-xl-3" type="password"
+                           placeholder="password" name="password" autocomplete="off">
 
-                    <input type="submit" class="d-block mx-auto my-2 login_button col-sm-10 col-md-6 col-lg-4 col-xl-3" value="Log in">
+                    <input type="submit" class="d-block mx-auto my-2 login_button col-sm-10 col-md-6 col-lg-4 col-xl-3"
+                           value="Log in">
 
                     <label for="remember">
 
@@ -62,8 +66,13 @@
 
                     </label>
 
-                    <?php
+<?php
+    if (\backend\model\Input::exists())
+    {
+        if (\backend\model\Token::check(\backend\model\Input::get('token'))) {
 
+    }
+}
 if (\backend\model\Session::exists('activation')) {
     $activation_message = \backend\model\Session::flash('activation');
     echo <<< END
@@ -75,6 +84,7 @@ if (\backend\model\Session::exists('activation')) {
 END;
 }
 ?>
+                    <input type="hidden" name="token" value="<?php echo \backend\model\Token::generate(); ?>">
 
                 </form>
 
