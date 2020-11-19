@@ -1,9 +1,16 @@
+<?php
+
+require_once '../../core/init.php';
+
+$user = new \backend\model\User();
+
+?>
 <!DOCTYPE html>
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>CHATTER</title>
+    <title>CHATTER Main page</title>
     <meta name="description" content="Web chat App">
     <meta name="keywords" content="chat, web chat">
     <meta name="author" content="Marcin Mizgała">
@@ -20,9 +27,36 @@
 </head>
 <body>
 
+    <div id="header"></div>
+    <div id="content" class="container">Loading</div>
+
+    <script>
+
+        async function getFile(fileName, element) {
+            fetch(fileName, {
+                headers: {
+                    'Accept': 'text/html'}
+            })
+                .then(res => res.text())
+                .then((data) => {
+                    document.getElementById(element).innerHTML = data;
+                    if (element === 'content')
+                    {
+                        serveFloatingNotifications();
+                    }
+                })
+                .catch((error) => console.log(error))
+        }
+        getFile("extended_mainbar.php", 'header');
+        getFile("users_content.html", 'content');
+
+    </script>
+
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
+
+<script src="../scripts/users.js"></script>
 
 </body>
 </html>
