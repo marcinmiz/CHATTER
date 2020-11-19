@@ -92,7 +92,8 @@ class User
 
     public function activate($activation_code) {
         $email = $this->data()->email;
-        if (!$this->_db->query("UPDATE users SET account_active=? WHERE email='{$email}' AND activation_token='{$activation_code}'", array(true))->error()) {
+        $this->_db->query("UPDATE users SET account_active=? WHERE email='{$email}' AND activation_token='{$activation_code}'", array(true));
+        if ($this->_db->get('users', array('email', '=', $email))->results()[0]->account_active) {
             Session::flash('activation', 'You have activated an account!');
             Redirect::to('index.php');
         } else {
@@ -106,6 +107,7 @@ class User
             if ($user) {
                 if (Hash::verify($password, $this->data()->password)) {
                     if ($this->data()->account_active != true) {
+                        Session::put('new_user_email', $email);
                         Session::flash('registration', 'Your account has not been activated yet!');
                         Redirect::to('activate.php');
                         return false;
