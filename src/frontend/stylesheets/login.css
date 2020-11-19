@@ -7,30 +7,6 @@
     text-align: center;
 }
 
-.mainbar
-{
-    min-height: 72px;
-    display: flex;
-    align-items: center;
-    padding: .4rem 1rem;
-    background-color: #343a40!important;
-}
-
-.brand
-{
-    letter-spacing: 5px;
-    color: white;
-    padding-top: .3125rem;
-    padding-bottom: .3125rem;
-    font-size: 1.75rem;
-}
-
-.brand:hover
-{
-    color: white;
-    text-decoration: none;
-}
-
 .initial
 {
     text-align: center;

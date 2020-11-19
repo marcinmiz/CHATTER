@@ -6,3 +6,34 @@ body
     font-family: 'Open Sans', sans-serif;
     font-size: 17px;
 }
+
+.mainbar
+{
+    min-height: 72px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: .4rem 1rem;
+    background-color: #343a40!important;
+}
+
+.mainbar_link
+{
+    color: white;
+    margin: 0 10px;
+}
+
+.mainbar_link:hover
+{
+    color: antiquewhite;
+    text-decoration: none;
+}
+
+.brand
+{
+    letter-spacing: 5px;
+    color: white;
+    padding-top: .3125rem;
+    padding-bottom: .3125rem;
+    font-size: 1.75rem;
+}
