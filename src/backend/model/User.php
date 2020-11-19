@@ -50,6 +50,7 @@ class User
     public function logout() {
 
         $this->_db->delete('users_sessions', array('user_id', '=', Session::get($this->_sessionName)));
+        $this->_isLoggedIn = false;
 
         Session::delete($this->_sessionName);
         Cookie::delete($this->_cookieName);
@@ -93,7 +94,7 @@ class User
     public function activate($activation_code) {
         $email = $this->data()->email;
         $this->_db->query("UPDATE users SET account_active=? WHERE email='{$email}' AND activation_token='{$activation_code}'", array(true));
-        if ($this->_db->get('users', array('email', '=', $email))->results()[0]->account_active) {
+        if ($this->_db->get('users', array('email', '=', $email))->first()->account_active) {
             Session::flash('activation', 'You have activated an account!');
             Redirect::to('index.php');
         } else {
@@ -141,4 +142,13 @@ class User
     public function exists() {
         return (!empty($this->_data)) ? true : false;
     }
+
+    public function updateLastActivity() {
+        $this->_db->query('UPDATE users SET last_activity = now() WHERE user_id = '.$this->data()->user_id);
+        if (!$this->_db->error()) {
+            return true;
+        }
+        return false;
+    }
+
 }

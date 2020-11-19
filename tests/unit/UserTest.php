@@ -115,6 +115,7 @@ class UserTest extends TestCase
      * @requires extension xdebug
      **/
     public function testCorrectActivationCode () {
+        $this->mockPeople->users_data[0]->account_active = true;
         $this->dbMock->method('count')->willReturn(1);
         $this->dbMock->method('first')->willReturn($this->mockPeople->users_data[0]);
         $this->dbMock->method('error')->willReturn(false);
@@ -128,6 +129,7 @@ class UserTest extends TestCase
 
 
     public function testIncorrectActivationCode () {
+        $this->mockPeople->users_data[0]->account_active = false;
         $this->dbMock->method('count')->willReturn(1);
         $this->dbMock->method('first')->willReturn($this->mockPeople->users_data[0]);
         $this->dbMock->method('error')->willReturn(true);
@@ -180,5 +182,31 @@ class UserTest extends TestCase
         $remember = false;
         $this->assertTrue(true, $this->user->login($email, $password, $remember));
         $this->assertTrue(true, \backend\model\Session::exists('user'));
+    }
+
+    /**
+     * @test
+     * @runInSeparateProcess
+     * @requires extension xdebug
+     **/
+    public function testSuccessfulUpdateLastActivity() {
+        $this->dbMock->method('error')->willReturn(false);
+        $this->dbMock->method('count')->willReturn(1);
+        $this->dbMock->method('first')->willReturn($this->mockPeople->users_data[2]);
+        $user = new User(3, $this->dbMock);
+        $this->assertTrue($user->updateLastActivity());
+    }
+
+    /**
+     * @test
+     * @runInSeparateProcess
+     * @requires extension xdebug
+     **/
+    public function testFailedUpdateLastActivity() {
+        $this->dbMock->method('error')->willReturn(true);
+        $this->dbMock->method('count')->willReturn(1);
+        $this->dbMock->method('first')->willReturn($this->mockPeople->users_data[2]);
+        $user = new User(3, $this->dbMock);
+        $this->assertFalse($user->updateLastActivity());
     }
 }
