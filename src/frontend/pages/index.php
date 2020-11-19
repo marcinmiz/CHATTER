@@ -79,6 +79,13 @@
             if ($validation->passed()) {
                 $user = new \backend\model\User();
 
+                $remember = (\backend\model\Input::get('remember') === 'on') ? true : false;
+                $login = $user->login(\backend\model\Input::get('email'), \backend\model\Input::get('password'), $remember);
+
+                if ($login) {
+                    \backend\model\Redirect::to('users.php');
+                }
+
             } else {
                 foreach ($validation->errors() as $error) {
 echo <<< END
