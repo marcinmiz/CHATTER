@@ -74,4 +74,45 @@ class UserRestHandlerTest extends TestCase
         unset($_SERVER['HTTP_ACCEPT']);
     }
 
+    /**
+     * @test
+     * @runInSeparateProcess
+     * @requires extension xdebug
+     **/
+    public function testSuccessfulJsonSelection()
+    {
+        $statusCode = 404;
+        $responseData = array(
+            'user_id' => 2,
+            'user_name' => 'Anne',
+            'surname' => 'Delaware'
+        );
+
+        $rest_handler = new UserRestHandler();
+        $_SERVER['HTTP_ACCEPT'] = 'application/json';
+        $jsonResponse = "json";
+        $this->assertEquals($jsonResponse, $rest_handler->selectEncoding($statusCode, $responseData));
+        unset($_SERVER['HTTP_ACCEPT']);
+    }
+
+    /**
+     * @test
+     * @runInSeparateProcess
+     * @requires extension xdebug
+     **/
+    public function testSuccessfulXmlSelection()
+    {
+        $statusCode = 202;
+        $responseData = array(
+            'user_id' => 3,
+            'user_name' => 'Robert',
+            'surname' => 'Lawrence'
+        );
+
+        $rest_handler = new UserRestHandler();
+        $_SERVER['HTTP_ACCEPT'] = 'application/xml';
+        $jsonResponse = "xml";
+        $this->assertEquals($jsonResponse, $rest_handler->selectEncoding($statusCode, $responseData));
+        unset($_SERVER['HTTP_ACCEPT']);
+    }
 }
