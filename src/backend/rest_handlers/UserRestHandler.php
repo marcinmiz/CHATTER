@@ -3,10 +3,18 @@
 namespace backend\rest_handlers;
 
 
+use backend\model\User;
 use SimpleXMLElement;
 
 class UserRestHandler extends SimpleRestHandler
 {
+    private $user;
+
+    public function __construct($user = null)
+    {
+        ($user == null) ? $this->user = new User() : $this->user = $user;
+    }
+
     public function encodeHtml($responseData) {
 
         $htmlResponse = "<table border='1'>";
@@ -47,5 +55,20 @@ class UserRestHandler extends SimpleRestHandler
             echo $response;
             return 'xml';
         }
+    }
+
+    function updateLastActivity()
+    {
+        $rawData = $this->user->updateLastActivity();
+
+        if (!$rawData) {
+            $statusCode = 404;
+            $rawData = array('error' => 'Last activity not updated!');
+        } else {
+            $statusCode = 200;
+        }
+
+        $this->selectEncoding($statusCode, $rawData);
+        return $statusCode;
     }
 }
