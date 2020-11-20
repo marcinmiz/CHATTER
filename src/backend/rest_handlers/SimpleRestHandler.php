@@ -5,6 +5,8 @@ namespace backend\rest_handlers;
 
 class SimpleRestHandler
 {
+    private $httpVersion = "HTTP/1.1";
+
     public function getHttpStatusMessage($statusCode){
         $httpStatus = array(
             100 => 'Continue',
@@ -50,5 +52,13 @@ class SimpleRestHandler
             505 => 'HTTP Version Not Supported');
 
         return array_key_exists($statusCode, $httpStatus) ? $httpStatus[$statusCode] : $httpStatus[500];
+    }
+
+    public function setHttpHeaders($contentType, $statusCode){
+
+        $statusMessage = $this -> getHttpStatusMessage($statusCode);
+
+        header($this->httpVersion. " ". $statusCode ." ". $statusMessage);
+        header("Content-Type:". $contentType);
     }
 }
