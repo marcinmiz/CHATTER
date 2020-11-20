@@ -361,4 +361,32 @@ class UserTest extends TestCase
         unset($_SESSION['user']);
     }
 
+    /**
+     * @test
+     * @runInSeparateProcess
+     * @requires extension xdebug
+     **/
+    public function testFindAll2Users() {
+        $this->dbMock->method('error')->willReturn(false);
+
+        $user1Time = new StdClass();
+        $user1Time->user_id = 1;
+        $user1Time->user_name = 'Fred';
+        $user1Time->surname = 'Sukkothai';
+
+        $user2Time = new StdClass();
+        $user2Time->user_id = 2;
+        $user2Time->user_name = 'Walter';
+        $user2Time->surname = 'Erwin';
+
+        $a1 = array($user1Time, $user2Time);
+
+        $this->dbMock->method('results')->willReturn($a1);
+        $this->dbMock->method('count')->willReturn(2);
+        $user = new User(null, $this->dbMock);
+        $_SESSION['user'] = 3;
+
+        $this->assertEqualsCanonicalizing($a1, $user->findAll());
+        unset($_SESSION['user']);
+    }
 }
