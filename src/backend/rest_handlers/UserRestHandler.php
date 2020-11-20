@@ -29,4 +29,23 @@ class UserRestHandler extends SimpleRestHandler
         }
         return $xml->asXML();
     }
+
+    public function selectEncoding($statusCode, $rawData) {
+        $requestContentType = $_SERVER['HTTP_ACCEPT'];
+        $this ->setHttpHeaders($requestContentType, $statusCode);
+
+        if(strpos($requestContentType,'application/json') !== false){
+            $response = $this->encodeJson($rawData);
+            echo $response;
+            return 'json';
+        } else if(strpos($requestContentType,'text/html') !== false){
+            $response = $this->encodeHtml($rawData);
+            echo $response;
+            return 'html';
+        } else if(strpos($requestContentType,'application/xml') !== false){
+            $response = $this->encodeXml($rawData);
+            echo $response;
+            return 'xml';
+        }
+    }
 }

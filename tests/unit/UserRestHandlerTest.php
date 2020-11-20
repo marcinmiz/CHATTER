@@ -52,4 +52,26 @@ class UserRestHandlerTest extends TestCase
 
         $this->assertEquals($jsonResponse, $rest_handler->encodeXml($responseData));
     }
+
+    /**
+     * @test
+     * @runInSeparateProcess
+     * @requires extension xdebug
+     **/
+    public function testSuccessfulHtmlSelection()
+    {
+        $statusCode = 200;
+        $responseData = array(
+            'user_id' => 1,
+            'user_name' => 'David',
+            'surname' => 'Davidson'
+        );
+
+        $rest_handler = new UserRestHandler();
+        $_SERVER['HTTP_ACCEPT'] = 'text/html';
+        $htmlResponse = "html";
+        $this->assertEquals($htmlResponse, $rest_handler->selectEncoding($statusCode, $responseData));
+        unset($_SERVER['HTTP_ACCEPT']);
+    }
+
 }
