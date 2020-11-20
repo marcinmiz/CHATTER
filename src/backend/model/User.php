@@ -151,4 +151,26 @@ class User
         return false;
     }
 
+    public function getStatuses() {
+        $this->_db->query('SELECT user_id, last_activity FROM users WHERE user_id!=? AND account_active=1', array(Session::get($this->_sessionName)));
+        if (!$this->_db->error()) {
+            $result = $this->_db->results();
+            for ($i = 0; $i < $this->_db->count(); $i++) {
+                $current_timestamp = strtotime(date('Y-m-d H:i:s') . '-10 second');
+                $user_last_activity = strtotime($result[$i]->last_activity);
+                if ($user_last_activity > $current_timestamp)
+                {
+                    $result[$i]->last_activity = '<span class="badge badge-pill badge-success">Online</span>';
+
+                }
+                else
+                {
+                    $result[$i]->last_activity = '<span class="badge badge-pill badge-danger">Offline</span>';
+                }
+            }
+            return $result;
+        }
+        return false;
+
+    }
 }

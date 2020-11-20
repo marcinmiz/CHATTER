@@ -20,6 +20,7 @@ class UserTest extends TestCase
             ->addMethods(['insert'])
             ->addMethods(['query'])
             ->addMethods(['error'])
+            ->addMethods(['results'])
             ->getMock();
 
         $this->mockPeople = new \stdClass();
@@ -35,16 +36,16 @@ class UserTest extends TestCase
         $this->mockPeople->users_data[0]->joined = '2020-10-27 18:26:33';
         $this->mockPeople->users_data[0]->last_activity = '2020-11-11 17:02:42';
 
-        $this->mockPeople->users_data[2] = new StdClass();
-        $this->mockPeople->users_data[2]->user_id = 3;
-        $this->mockPeople->users_data[2]->user_name = 'Max';
-        $this->mockPeople->users_data[2]->surname = 'Maximowicz';
-        $this->mockPeople->users_data[2]->email = 'max@yahoo.com';
-        $this->mockPeople->users_data[2]->password = '$2y$10$awYyCZUv19shfZ25S.ieounGNzitgz1IhFvxfjtHnykv.5aGgIpHa';
-        $this->mockPeople->users_data[2]->activation_token = '5ehd5dg9';
-        $this->mockPeople->users_data[2]->account_active = false;
-        $this->mockPeople->users_data[2]->joined = '2020-10-30 18:34:49';
-        $this->mockPeople->users_data[2]->last_activity = '2020-11-12 16:20:00';
+        $this->mockPeople->users_data[1] = new StdClass();
+        $this->mockPeople->users_data[1]->user_id = 2;
+        $this->mockPeople->users_data[1]->user_name = 'Max';
+        $this->mockPeople->users_data[1]->surname = 'Maximowicz';
+        $this->mockPeople->users_data[1]->email = 'max@yahoo.com';
+        $this->mockPeople->users_data[1]->password = '$2y$10$awYyCZUv19shfZ25S.ieounGNzitgz1IhFvxfjtHnykv.5aGgIpHa';
+        $this->mockPeople->users_data[1]->activation_token = '5ehd5dg9';
+        $this->mockPeople->users_data[1]->account_active = false;
+        $this->mockPeople->users_data[1]->joined = '2020-10-30 18:34:49';
+        $this->mockPeople->users_data[1]->last_activity = '2020-11-12 16:20:00';
 
         $this->dbMock->method('get')->willReturn($this->dbMock);
         $this->dbMock->method('delete')->willReturn($this->dbMock);
@@ -100,7 +101,7 @@ class UserTest extends TestCase
     public function testUserFoundByEmail()
     {
         $this->dbMock->method('count')->willReturn(1);
-        $this->dbMock->method('first')->willReturn($this->mockPeople->users_data[2]);
+        $this->dbMock->method('first')->willReturn($this->mockPeople->users_data[1]);
         $this->assertTrue($this->user->find('max@yahoo.com'));
     }
 
@@ -148,7 +149,7 @@ class UserTest extends TestCase
 
     public function testLoginWithIncorrectPassword() {
         $this->dbMock->method('count')->willReturn(1);
-        $this->dbMock->method('first')->willReturn($this->mockPeople->users_data[2]);
+        $this->dbMock->method('first')->willReturn($this->mockPeople->users_data[1]);
         $email = 'max@yahoo.com';
         $password = 'ndowqfnwef';
         $remember = 'false';
@@ -162,7 +163,7 @@ class UserTest extends TestCase
      **/
     public function testLoginInactiveAccount() {
         $this->dbMock->method('count')->willReturn(1);
-        $this->dbMock->method('first')->willReturn($this->mockPeople->users_data[2]);
+        $this->dbMock->method('first')->willReturn($this->mockPeople->users_data[1]);
         $email = 'max@yahoo.com';
         $password = 'qwerty';
         $remember = false;
@@ -174,9 +175,9 @@ class UserTest extends TestCase
     }
 
     public function testLoginActiveAccountWithoutRememberMe() {
-        $this->mockPeople->users_data[2]->account_active = true;
+        $this->mockPeople->users_data[1]->account_active = true;
         $this->dbMock->method('count')->willReturn(1);
-        $this->dbMock->method('first')->willReturn($this->mockPeople->users_data[2]);
+        $this->dbMock->method('first')->willReturn($this->mockPeople->users_data[1]);
         $email = 'max@yahoo.com';
         $password = 'qwerty';
         $remember = false;
@@ -192,7 +193,7 @@ class UserTest extends TestCase
     public function testSuccessfulUpdateLastActivity() {
         $this->dbMock->method('error')->willReturn(false);
         $this->dbMock->method('count')->willReturn(1);
-        $this->dbMock->method('first')->willReturn($this->mockPeople->users_data[2]);
+        $this->dbMock->method('first')->willReturn($this->mockPeople->users_data[1]);
         $user = new User(3, $this->dbMock);
         $this->assertTrue($user->updateLastActivity());
     }
@@ -205,8 +206,22 @@ class UserTest extends TestCase
     public function testFailedUpdateLastActivity() {
         $this->dbMock->method('error')->willReturn(true);
         $this->dbMock->method('count')->willReturn(1);
-        $this->dbMock->method('first')->willReturn($this->mockPeople->users_data[2]);
+        $this->dbMock->method('first')->willReturn($this->mockPeople->users_data[1]);
         $user = new User(3, $this->dbMock);
         $this->assertFalse($user->updateLastActivity());
     }
+
+    /**
+     * @test
+     * @runInSeparateProcess
+     * @requires extension xdebug
+     **/
+    public function testGetStatusesQueryExecutionProblem() {
+        $this->dbMock->method('error')->willReturn(true);
+        $user = new User(null, $this->dbMock);
+        $_SESSION['user'] = 1;
+        $this->assertFalse($user->getStatuses());
+        unset($_SESSION['user']);
+    }
+
 }
