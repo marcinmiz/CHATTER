@@ -328,4 +328,37 @@ class UserTest extends TestCase
         $this->assertEqualsCanonicalizing($a2, $user->getStatuses());
         unset($_SESSION['user']);
     }
+
+    /**
+     * @test
+     * @runInSeparateProcess
+     * @requires extension xdebug
+     **/
+    public function testFindAllUsersNobodyFound() {
+        $this->dbMock->method('error')->willReturn(false);
+
+        $this->dbMock->method('count')->willReturn(0);
+        $user = new User(null, $this->dbMock);
+        $_SESSION['user'] = 1;
+
+        $this->assertFalse($user->findAll());
+        unset($_SESSION['user']);
+    }
+
+    /**
+     * @test
+     * @runInSeparateProcess
+     * @requires extension xdebug
+     **/
+    public function testFindAllUsersQueryExecutionError() {
+        $this->dbMock->method('error')->willReturn(true);
+
+        $this->dbMock->method('count')->willReturn(2);
+        $user = new User(null, $this->dbMock);
+        $_SESSION['user'] = 1;
+
+        $this->assertFalse($user->findAll());
+        unset($_SESSION['user']);
+    }
+
 }
