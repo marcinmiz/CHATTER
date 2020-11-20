@@ -224,4 +224,39 @@ class UserTest extends TestCase
         unset($_SESSION['user']);
     }
 
+    /**
+     * @test
+     * @runInSeparateProcess
+     * @requires extension xdebug
+     **/
+    public function testGetStatusesUserLastActivityLessThan10seconds() {
+        $this->dbMock->method('error')->willReturn(false);
+
+        $user1Time = new StdClass();
+        $user1Time->user_id = 1;
+        $user1Time->last_activity = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . '-8 second'));
+
+        $user2Time = new StdClass();
+        $user2Time->user_id = 2;
+        $user2Time->last_activity = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . '-9 second'));
+
+        $a1 = array($user1Time, $user2Time);
+        $this->dbMock->method('results')->willReturn($a1);
+        $this->dbMock->method('count')->willReturn(2);
+        $user = new User(null, $this->dbMock);
+        $_SESSION['user'] = 1;
+
+        $user1Badge = new StdClass();
+        $user1Badge->user_id = 1;
+        $user1Badge->last_activity = '<span class="badge badge-pill badge-success">Online</span>';
+
+        $user2Badge = new StdClass();
+        $user2Badge->user_id = 2;
+        $user2Badge->last_activity = '<span class="badge badge-pill badge-success">Online</span>';
+
+        $a2 = array($user1Badge, $user2Badge);
+        $this->assertEqualsCanonicalizing($a2, $user->getStatuses());
+        unset($_SESSION['user']);
+    }
+
 }
