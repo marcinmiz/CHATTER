@@ -3,6 +3,8 @@
 namespace backend\rest_handlers;
 
 
+use SimpleXMLElement;
+
 class UserRestHandler extends SimpleRestHandler
 {
     public function encodeHtml($responseData) {
@@ -20,4 +22,11 @@ class UserRestHandler extends SimpleRestHandler
         return $jsonResponse;
     }
 
+    public function encodeXml($responseData) {
+        $xml = new SimpleXMLElement('<?xml version="1.0"?><mobile></mobile>');
+        foreach($responseData as $key=>$value) {
+            $xml->addChild($key, $value);
+        }
+        return $xml->asXML();
+    }
 }
