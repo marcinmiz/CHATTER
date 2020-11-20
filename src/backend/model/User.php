@@ -173,4 +173,12 @@ class User
         return false;
 
     }
+
+    public function findAll() {
+        $this->_db->query('SELECT user_id, user_name, surname FROM users WHERE user_id!=? AND account_active=1', array(Session::get($this->_sessionName)));
+        if (!$this->_db->error() && $this->_db->count() > 0) {
+            return $this->_db->results();
+        }
+        return false;
+    }
 }
