@@ -14,6 +14,7 @@ class UserRestHandlerTest extends TestCase
     {
         $this->user = $this->getMockBuilder('backend\model\Redirect')
             ->addMethods(['updateLastActivity'])
+            ->addMethods(['getStatuses'])
             ->getMock();
     }
 
@@ -150,4 +151,35 @@ class UserRestHandlerTest extends TestCase
         $this->assertEquals(404, $rest_handler->updateLastActivity());
         unset($_SERVER['HTTP_ACCEPT']);
     }
+
+    /**
+     * @test
+     * @runInSeparateProcess
+     * @requires extension xdebug
+     **/
+    public function testFailedGetStatuses () {
+        $_SERVER['HTTP_ACCEPT'] = 'application/json';
+        $this->user->method('getStatuses')->willReturn(false);
+        $rest_handler = new UserRestHandler($this->user);
+        $this->assertEquals(404, $rest_handler->getStatuses());
+        unset($_SERVER['HTTP_ACCEPT']);
+    }
+
+    /**
+     * @test
+     * @runInSeparateProcess
+     * @requires extension xdebug
+     **/
+    public function testSuccessfulGetStatuses () {
+        $_SERVER['HTTP_ACCEPT'] = 'application/json';
+        $user = new StdClass();
+        $user->user_id = 1;
+        $user->last_activity = '<span class="badge badge-pill badge-success">Online</span>';
+        $a = array($user);
+        $this->user->method('getStatuses')->willReturn($a);
+        $rest_handler = new UserRestHandler($this->user);
+        $this->assertEquals(200, $rest_handler->getStatuses());
+        unset($_SERVER['HTTP_ACCEPT']);
+    }
+
 }
