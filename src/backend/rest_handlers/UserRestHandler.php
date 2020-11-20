@@ -15,4 +15,9 @@ class UserRestHandler extends SimpleRestHandler
         return $htmlResponse;
     }
 
+    public function encodeJson($responseData) {
+        $jsonResponse = json_encode($responseData);
+        return $jsonResponse;
+    }
+
 }
