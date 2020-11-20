@@ -48,6 +48,7 @@ class SimpleRestHandler
             503 => 'Service Unavailable',
             504 => 'Gateway Timeout',
             505 => 'HTTP Version Not Supported');
-        return ($httpStatus[$statusCode]) ? $httpStatus[$statusCode] : $httpStatus[500];
+
+        return array_key_exists($statusCode, $httpStatus) ? $httpStatus[$statusCode] : $httpStatus[500];
     }
 }
