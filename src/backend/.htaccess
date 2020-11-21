@@ -1,0 +1,8 @@
+# Turn rewrite engine on
+#Options +FollowSymlinks
+RewriteEngine on
+
+# map neat URL to internal URL
+RewriteRule ^api/users/get/all_users$ ./controllers/UserController.php?action=get&complement=all_users [nc,qsa]
+RewriteRule ^api/users/get/statuses/$ ./controllers/UserController.php?action=get&complement=statuses [nc,qsa]
+RewriteRule ^api/users/update/last_activity/$ ./controllers/UserController.php?action=update&complement=last_activity [nc,qsa]
