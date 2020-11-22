@@ -37,3 +37,19 @@
     border: none;
     opacity: 0.6;
 }
+
+.search-button
+{
+    height: 33px;
+    width: 15%;
+    border-radius: 20px;
+    background-color: burlywood;
+    text-align: center;
+    margin: 5px;
+    border: none;
+}
+
+main
+{
+    width: 100%;
+}
