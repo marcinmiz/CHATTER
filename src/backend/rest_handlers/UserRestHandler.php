@@ -66,6 +66,7 @@ class UserRestHandler extends SimpleRestHandler
             $rawData = array('error' => 'Last activity not updated!');
         } else {
             $statusCode = 200;
+            $rawData = array('success' => 'Last activity updated!');
         }
 
         $this->selectEncoding($statusCode, $rawData);
