@@ -7,15 +7,16 @@ use backend\rest_handlers\UserRestHandler;
 
 $action = "";
 if(isset($_GET["action"]))
-    $view = $_GET["action"];
+    $action = $_GET["action"];
 
 $complement = "";
-if(isset($_GET["$complement"]))
-    $view = $_GET["$complement"];
+if(isset($_GET["complement"]))
+    $complement = $_GET["complement"];
 /*
 controls the RESTful services
 URL mapping
 */
+
 switch($action){
 
     case "get":
