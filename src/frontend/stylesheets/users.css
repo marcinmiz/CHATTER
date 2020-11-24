@@ -66,14 +66,26 @@ main
     place-self: center start;
 }
 
+.user-type
+{
+    grid-area: user-type;
+    place-self: center;
+}
+
+.user-new-messages
+{
+    grid-area: new-message;
+    place-self: center;
+}
+
 .user
 {
     display: grid;
     grid-template-columns: 10% 35% 10% 15% 20% 5% 5%;
     grid-template-rows: 50% 50%;
     grid-template-areas:
-            "avatar name"
-            "avatar name";
+            "avatar name user-type"
+            "avatar name new-message";
     background-color: #808080;
     border-radius: 10px;
     padding: 10px;

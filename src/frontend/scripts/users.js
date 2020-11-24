@@ -81,6 +81,14 @@ function go(current_user_id) {
                     nameContainer.appendChild(name);
                     newUser.appendChild(nameContainer);
 
+                    let userType = document.createElement('div');
+                    userType.setAttribute('class', 'user-type');
+
+                    let userIcon = document.createElement('i');
+                    userIcon.setAttribute('class', 'icon-user');
+                    userType.appendChild(userIcon);
+                    newUser.appendChild(userType);
+
                     usersList.appendChild(newUser);
 
                 }
