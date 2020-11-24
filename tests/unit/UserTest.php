@@ -191,11 +191,13 @@ class UserTest extends TestCase
      * @requires extension xdebug
      **/
     public function testSuccessfulUpdateLastActivity() {
+        $user_id = 60;
+
         $this->dbMock->method('error')->willReturn(false);
         $this->dbMock->method('count')->willReturn(1);
         $this->dbMock->method('first')->willReturn($this->mockPeople->users_data[1]);
         $user = new User(3, $this->dbMock);
-        $this->assertTrue($user->updateLastActivity());
+        $this->assertTrue($user->updateLastActivity($user_id));
     }
 
     /**
@@ -204,11 +206,13 @@ class UserTest extends TestCase
      * @requires extension xdebug
      **/
     public function testFailedUpdateLastActivity() {
+        $user_id = 30;
+
         $this->dbMock->method('error')->willReturn(true);
         $this->dbMock->method('count')->willReturn(1);
         $this->dbMock->method('first')->willReturn($this->mockPeople->users_data[1]);
         $user = new User(3, $this->dbMock);
-        $this->assertFalse($user->updateLastActivity());
+        $this->assertFalse($user->updateLastActivity($user_id));
     }
 
     /**
@@ -218,9 +222,12 @@ class UserTest extends TestCase
      **/
     public function testGetStatusesQueryExecutionProblem() {
         $this->dbMock->method('error')->willReturn(true);
+
+        $user_id = 30;
+
         $user = new User(null, $this->dbMock);
         $_SESSION['user'] = 1;
-        $this->assertFalse($user->getStatuses());
+        $this->assertFalse($user->getStatuses($user_id));
         unset($_SESSION['user']);
     }
 
@@ -231,6 +238,8 @@ class UserTest extends TestCase
      **/
     public function testGetStatusesUserLastActivityLessThan10seconds() {
         $this->dbMock->method('error')->willReturn(false);
+
+        $user_id = 60;
 
         $user1Time = new StdClass();
         $user1Time->user_id = 1;
@@ -255,7 +264,7 @@ class UserTest extends TestCase
         $user2Badge->last_activity = '<span class="badge badge-pill badge-success">Online</span>';
 
         $a2 = array($user1Badge, $user2Badge);
-        $this->assertEqualsCanonicalizing($a2, $user->getStatuses());
+        $this->assertEqualsCanonicalizing($a2, $user->getStatuses($user_id));
         unset($_SESSION['user']);
     }
 
@@ -266,6 +275,8 @@ class UserTest extends TestCase
      **/
     public function testGetStatusesUserLastActivityEqualTo10seconds() {
         $this->dbMock->method('error')->willReturn(false);
+
+        $user_id = 60;
 
         $user1Time = new StdClass();
         $user1Time->user_id = 1;
@@ -290,7 +301,7 @@ class UserTest extends TestCase
         $user2Badge->last_activity = '<span class="badge badge-pill badge-danger">Offline</span>';
 
         $a2 = array($user1Badge, $user2Badge);
-        $this->assertEqualsCanonicalizing($a2, $user->getStatuses());
+        $this->assertEqualsCanonicalizing($a2, $user->getStatuses($user_id));
         unset($_SESSION['user']);
     }
 
@@ -301,6 +312,8 @@ class UserTest extends TestCase
      **/
     public function testGetStatusesUserLastActivityMoreThan10seconds() {
         $this->dbMock->method('error')->willReturn(false);
+
+        $user_id = 60;
 
         $user1Time = new StdClass();
         $user1Time->user_id = 1;
@@ -325,7 +338,7 @@ class UserTest extends TestCase
         $user2Badge->last_activity = '<span class="badge badge-pill badge-danger">Offline</span>';
 
         $a2 = array($user1Badge, $user2Badge);
-        $this->assertEqualsCanonicalizing($a2, $user->getStatuses());
+        $this->assertEqualsCanonicalizing($a2, $user->getStatuses($user_id));
         unset($_SESSION['user']);
     }
 
@@ -337,11 +350,13 @@ class UserTest extends TestCase
     public function testFindAllUsersNobodyFound() {
         $this->dbMock->method('error')->willReturn(false);
 
+        $user_id = 30;
+
         $this->dbMock->method('count')->willReturn(0);
         $user = new User(null, $this->dbMock);
         $_SESSION['user'] = 1;
 
-        $this->assertFalse($user->findAll());
+        $this->assertFalse($user->findAll($user_id));
         unset($_SESSION['user']);
     }
 
@@ -353,11 +368,13 @@ class UserTest extends TestCase
     public function testFindAllUsersQueryExecutionError() {
         $this->dbMock->method('error')->willReturn(true);
 
+        $user_id = 30;
+
         $this->dbMock->method('count')->willReturn(2);
         $user = new User(null, $this->dbMock);
         $_SESSION['user'] = 1;
 
-        $this->assertFalse($user->findAll());
+        $this->assertFalse($user->findAll($user_id));
         unset($_SESSION['user']);
     }
 
@@ -368,6 +385,8 @@ class UserTest extends TestCase
      **/
     public function testFindAll2Users() {
         $this->dbMock->method('error')->willReturn(false);
+
+        $user_id = 60;
 
         $user1Time = new StdClass();
         $user1Time->user_id = 1;
@@ -386,7 +405,7 @@ class UserTest extends TestCase
         $user = new User(null, $this->dbMock);
         $_SESSION['user'] = 3;
 
-        $this->assertEqualsCanonicalizing($a1, $user->findAll());
+        $this->assertEqualsCanonicalizing($a1, $user->findAll($user_id));
         unset($_SESSION['user']);
     }
 }
