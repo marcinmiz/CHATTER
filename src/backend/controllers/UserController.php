@@ -27,11 +27,11 @@ switch($action){
         switch($complement){
             case "all_users":
                 $userRestHandler = new UserRestHandler();
-                $userRestHandler->getAllUsers();
+                $userRestHandler->getAllUsers($user_id);
                 break;
             case "statuses":
                 $userRestHandler = new UserRestHandler();
-                $userRestHandler->getStatuses();
+                $userRestHandler->getStatuses($user_id);
                 break;
             case "user":
                 $userRestHandler = new UserRestHandler();
@@ -46,7 +46,7 @@ switch($action){
         switch($complement) {
             case "last_activity":
                 $userRestHandler = new UserRestHandler();
-                $userRestHandler->updateLastActivity();
+                $userRestHandler->updateLastActivity($user_id);
                 break;
             case "" :
                 //404 - not found;
