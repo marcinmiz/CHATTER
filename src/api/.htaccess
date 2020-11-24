@@ -6,3 +6,4 @@ RewriteEngine on
 RewriteRule ^users/get/all_users$ ../backend/controllers/UserController.php?action=get&complement=all_users [nc,qsa]
 RewriteRule ^users/get/statuses/$ ../backend/controllers/UserController.php?action=get&complement=statuses [nc,qsa]
 RewriteRule ^users/update/last_activity/$ ../backend/controllers/UserController.php?action=update&complement=last_activity [nc,qsa]
+RewriteRule ^users/get/user/([0-9]+)/$ ../backend/controllers/UserController.php?action=get&complement=user&user_id=$1 [nc,qsa]

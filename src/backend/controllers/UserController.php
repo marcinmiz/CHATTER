@@ -12,6 +12,10 @@ if(isset($_GET["action"]))
 $complement = "";
 if(isset($_GET["complement"]))
     $complement = $_GET["complement"];
+
+$user_id = 0;
+if(isset($_GET["user_id"]))
+    $user_id = $_GET["user_id"];
 /*
 controls the RESTful services
 URL mapping
@@ -28,6 +32,10 @@ switch($action){
             case "statuses":
                 $userRestHandler = new UserRestHandler();
                 $userRestHandler->getStatuses();
+                break;
+            case "user":
+                $userRestHandler = new UserRestHandler();
+                $userRestHandler->getUser($user_id);
                 break;
             case "" :
                 //404 - not found;
