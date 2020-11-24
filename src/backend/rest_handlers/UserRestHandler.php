@@ -57,9 +57,9 @@ class UserRestHandler extends SimpleRestHandler
         }
     }
 
-    function updateLastActivity()
+    function updateLastActivity($user_id)
     {
-        $rawData = $this->user->updateLastActivity();
+        $rawData = $this->user->updateLastActivity($user_id);
 
         if (!$rawData) {
             $statusCode = 404;
@@ -73,9 +73,9 @@ class UserRestHandler extends SimpleRestHandler
         return $statusCode;
     }
 
-    function getStatuses() {
+    function getStatuses($user_id) {
 
-        $rawData = $this->user->getStatuses();
+        $rawData = $this->user->getStatuses($user_id);
 
         if($rawData == false) {
             $statusCode = 404;
@@ -88,9 +88,9 @@ class UserRestHandler extends SimpleRestHandler
         return $statusCode;
     }
 
-    function getAllUsers()
+    function getAllUsers($user_id)
     {
-        $rawData = $this->user->findAll();
+        $rawData = $this->user->findAll($user_id);
 
         if ($rawData == false) {
             $statusCode = 404;
@@ -114,10 +114,10 @@ class UserRestHandler extends SimpleRestHandler
             $statusCode = 200;
             $data = $this->user->data();
             $user_data = [
-              'user_id' => $data[0]->user_id,
-              'user_name' => $data[0]->user_name,
-              'surname' => $data[0]->surname,
-              'email' => $data[0]->email
+              'user_id' => $data->user_id,
+              'user_name' => $data->user_name,
+              'surname' => $data->surname,
+              'email' => $data->email
             ];
             $rawData = $user_data;
         }
