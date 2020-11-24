@@ -1,6 +1,21 @@
 function go(current_user_id) {
 
-    var usersNumber = 0;
+    var usersNumber;
+
+    function getUser(id = current_user_id) {
+        fetch('../../api/users/get/user/' + id + "/", {
+            headers: {
+                'Accept': 'application/json'
+            }
+        })
+            .then(res => res.json())
+            .then(data => {
+                document.getElementsByTagName('p')[0].innerHTML = data.user_name + " " + data.surname;
+            })
+            .catch(error => console.log(error))
+    }
+
+    getUser();
 
     setInterval(function () {
         updateLastActivity();
