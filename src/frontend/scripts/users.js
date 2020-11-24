@@ -73,6 +73,14 @@ function go(current_user_id) {
                     avatar.appendChild(avatarImg);
                     newUser.appendChild(avatar);
 
+                    let nameContainer = document.createElement('div');
+                    nameContainer.setAttribute('class', 'user-name');
+
+                    let name = document.createElement('p');
+                    name.appendChild(document.createTextNode(data[i].user_name + ' ' + data[i].surname));
+                    nameContainer.appendChild(name);
+                    newUser.appendChild(nameContainer);
+
                     usersList.appendChild(newUser);
 
                 }

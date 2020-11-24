@@ -60,14 +60,20 @@ main
     place-self: center;
 }
 
+.user-name
+{
+    grid-area: name;
+    place-self: center start;
+}
+
 .user
 {
     display: grid;
     grid-template-columns: 10% 35% 10% 15% 20% 5% 5%;
     grid-template-rows: 50% 50%;
     grid-template-areas:
-            "avatar"
-            "avatar";
+            "avatar name"
+            "avatar name";
     background-color: #808080;
     border-radius: 10px;
     padding: 10px;
