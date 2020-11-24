@@ -143,16 +143,16 @@ class User
         return (!empty($this->_data)) ? true : false;
     }
 
-    public function updateLastActivity() {
-        $this->_db->query('UPDATE users SET last_activity = now() WHERE user_id = '.$this->data()->user_id);
+    public function updateLastActivity($user_id) {
+        $this->_db->query('UPDATE users SET last_activity = now() WHERE user_id = '.$user_id);
         if (!$this->_db->error()) {
             return true;
         }
         return false;
     }
 
-    public function getStatuses() {
-        $this->_db->query('SELECT user_id, last_activity FROM users WHERE user_id!=? AND account_active=1', array(Session::get($this->_sessionName)));
+    public function getStatuses($user_id) {
+        $this->_db->query('SELECT user_id, last_activity FROM users WHERE user_id!=? AND account_active=1', array($user_id));
         if (!$this->_db->error()) {
             $result = $this->_db->results();
             for ($i = 0; $i < $this->_db->count(); $i++) {
@@ -174,8 +174,8 @@ class User
 
     }
 
-    public function findAll() {
-        $this->_db->query('SELECT user_id, user_name, surname FROM users WHERE user_id!=? AND account_active=1', array(Session::get($this->_sessionName)));
+    public function findAll($user_id) {
+        $this->_db->query('SELECT user_id, user_name, surname FROM users WHERE user_id!=? AND account_active=1', array($user_id));
         if (!$this->_db->error() && $this->_db->count() > 0) {
             return $this->_db->results();
         }
