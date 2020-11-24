@@ -102,4 +102,27 @@ class UserRestHandler extends SimpleRestHandler
         $this->selectEncoding($statusCode, $rawData);
         return $statusCode;
     }
+
+    function getUser($user_id)
+    {
+        $rawData = $this->user->find($user_id);
+
+        if ($rawData == false) {
+            $statusCode = 404;
+            $rawData = array('error' => 'No users found!');
+        } else {
+            $statusCode = 200;
+            $data = $this->user->data();
+            $user_data = [
+              'user_id' => $data[0]->user_id,
+              'user_name' => $data[0]->user_name,
+              'surname' => $data[0]->surname,
+              'email' => $data[0]->email
+            ];
+            $rawData = $user_data;
+        }
+
+        $this->selectEncoding($statusCode, $rawData);
+        return $statusCode;
+    }
 }
