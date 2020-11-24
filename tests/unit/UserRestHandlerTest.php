@@ -136,9 +136,12 @@ class UserRestHandlerTest extends TestCase
      **/
     public function testSuccessfulLastActivityUpdating () {
         $_SERVER['HTTP_ACCEPT'] = 'application/json';
+
+        $user_id = 60;
+
         $this->user->method('updateLastActivity')->willReturn(true);
         $rest_handler = new UserRestHandler($this->user);
-        $this->assertEquals(200, $rest_handler->updateLastActivity());
+        $this->assertEquals(200, $rest_handler->updateLastActivity($user_id));
         unset($_SERVER['HTTP_ACCEPT']);
     }
 
@@ -149,9 +152,12 @@ class UserRestHandlerTest extends TestCase
      **/
     public function testFailedLastActivityUpdating () {
         $_SERVER['HTTP_ACCEPT'] = 'application/json';
+
+        $user_id = 30;
+
         $this->user->method('updateLastActivity')->willReturn(false);
         $rest_handler = new UserRestHandler($this->user);
-        $this->assertEquals(404, $rest_handler->updateLastActivity());
+        $this->assertEquals(404, $rest_handler->updateLastActivity($user_id));
         unset($_SERVER['HTTP_ACCEPT']);
     }
 
@@ -162,9 +168,12 @@ class UserRestHandlerTest extends TestCase
      **/
     public function testFailedGetStatuses () {
         $_SERVER['HTTP_ACCEPT'] = 'application/json';
+
+        $user_id = 30;
+
         $this->user->method('getStatuses')->willReturn(false);
         $rest_handler = new UserRestHandler($this->user);
-        $this->assertEquals(404, $rest_handler->getStatuses());
+        $this->assertEquals(404, $rest_handler->getStatuses($user_id));
         unset($_SERVER['HTTP_ACCEPT']);
     }
 
@@ -175,13 +184,16 @@ class UserRestHandlerTest extends TestCase
      **/
     public function testSuccessfulGetStatuses () {
         $_SERVER['HTTP_ACCEPT'] = 'application/json';
+
+        $user_id = 60;
+
         $user = new StdClass();
         $user->user_id = 1;
         $user->last_activity = '<span class="badge badge-pill badge-success">Online</span>';
         $a = array($user);
         $this->user->method('getStatuses')->willReturn($a);
         $rest_handler = new UserRestHandler($this->user);
-        $this->assertEquals(200, $rest_handler->getStatuses());
+        $this->assertEquals(200, $rest_handler->getStatuses($user_id));
         unset($_SERVER['HTTP_ACCEPT']);
     }
 
@@ -192,6 +204,8 @@ class UserRestHandlerTest extends TestCase
      **/
     public function testSuccessfulFindAllUsers () {
         $_SERVER['HTTP_ACCEPT'] = 'application/json';
+
+        $user_id = 60;
 
         $user = new StdClass();
         $user->user_id = 27;
@@ -206,7 +220,7 @@ class UserRestHandlerTest extends TestCase
         $a = array($user, $user2);
         $this->user->method('findAll')->willReturn($a);
         $rest_handler = new UserRestHandler($this->user);
-        $this->assertEquals(200, $rest_handler->getAllUsers());
+        $this->assertEquals(200, $rest_handler->getAllUsers($user_id));
         unset($_SERVER['HTTP_ACCEPT']);
     }
 
@@ -217,9 +231,10 @@ class UserRestHandlerTest extends TestCase
      **/
     public function testFailedFindAllUsers () {
         $_SERVER['HTTP_ACCEPT'] = 'application/json';
+        $user_id = 30;
         $this->user->method('getStatuses')->willReturn(false);
         $rest_handler = new UserRestHandler($this->user);
-        $this->assertEquals(404, $rest_handler->getAllUsers());
+        $this->assertEquals(404, $rest_handler->getAllUsers($user_id));
         unset($_SERVER['HTTP_ACCEPT']);
     }
 
@@ -239,9 +254,8 @@ class UserRestHandlerTest extends TestCase
         $user->surname = "Hernandez";
         $user->email = "xavier@gmail.com";
 
-        $a = array($user);
         $this->user->method('find')->willReturn(true);
-        $this->user->method('data')->willReturn($a);
+        $this->user->method('data')->willReturn($user);
         $rest_handler = new UserRestHandler($this->user);
         $this->assertEquals(200, $rest_handler->getUser($user_id));
         unset($_SERVER['HTTP_ACCEPT']);
