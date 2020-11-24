@@ -16,6 +16,8 @@ class UserRestHandlerTest extends TestCase
             ->addMethods(['updateLastActivity'])
             ->addMethods(['getStatuses'])
             ->addMethods(['findAll'])
+            ->addMethods(['find'])
+            ->addMethods(['data'])
             ->getMock();
     }
 
@@ -218,6 +220,46 @@ class UserRestHandlerTest extends TestCase
         $this->user->method('getStatuses')->willReturn(false);
         $rest_handler = new UserRestHandler($this->user);
         $this->assertEquals(404, $rest_handler->getAllUsers());
+        unset($_SERVER['HTTP_ACCEPT']);
+    }
+
+    /**
+     * @test
+     * @runInSeparateProcess
+     * @requires extension xdebug
+     **/
+    public function testSuccessfulFindUser () {
+        $_SERVER['HTTP_ACCEPT'] = 'application/json';
+
+        $user_id = 27;
+
+        $user = new StdClass();
+        $user->user_id = 27;
+        $user->user_name = "Xavier";
+        $user->surname = "Hernandez";
+        $user->email = "xavier@gmail.com";
+
+        $a = array($user);
+        $this->user->method('find')->willReturn(true);
+        $this->user->method('data')->willReturn($a);
+        $rest_handler = new UserRestHandler($this->user);
+        $this->assertEquals(200, $rest_handler->getUser($user_id));
+        unset($_SERVER['HTTP_ACCEPT']);
+    }
+
+    /**
+     * @test
+     * @runInSeparateProcess
+     * @requires extension xdebug
+     **/
+    public function testFailedFindUser () {
+        $_SERVER['HTTP_ACCEPT'] = 'application/json';
+
+        $user_id = 30;
+
+        $this->user->method('find')->willReturn(false);
+        $rest_handler = new UserRestHandler($this->user);
+        $this->assertEquals(404, $rest_handler->getUser($user_id));
         unset($_SERVER['HTTP_ACCEPT']);
     }
 }
