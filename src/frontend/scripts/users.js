@@ -47,4 +47,40 @@ function go(current_user_id) {
             })
             .catch((error) => console.log(error))
     }
+
+
+    function getAllUsers(id = current_user_id) {
+        fetch('../../api/users/get/all_users/'+id+"/", {
+            headers: {
+                'Accept': 'application/json'
+            }
+        })
+            .then(res => res.json())
+            .then(data => {
+                usersNumber = data.length;
+                const usersList = document.getElementById("users-list");
+                for (let i = 0; i < data.length; i++) {
+                    let newUser = document.createElement('div');
+                    newUser.setAttribute("class", "user");
+
+                    let avatar = document.createElement('div');
+                    avatar.setAttribute("class", "user-avatar");
+
+                    let avatarImg = document.createElement('img');
+                    avatarImg.setAttribute("class", "avatar");
+                    avatarImg.setAttribute('src', '../../extras/img/avatar.png');
+                    avatarImg.setAttribute('alt', 'avatar');
+                    avatar.appendChild(avatarImg);
+                    newUser.appendChild(avatar);
+
+                    usersList.appendChild(newUser);
+
+                }
+
+                })
+            .catch((error) => console.log(error))
+    }
+
+    getAllUsers();
+
 }
