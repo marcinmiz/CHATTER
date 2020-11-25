@@ -112,6 +112,34 @@ function go(current_user_id) {
 
                     usersList.appendChild(newUser);
 
+                    function toogleChat() {
+                        localStorage.setItem("user_id", data[i].user_id);
+                        location="chat.php";
+                    }
+
+                    newUser.addEventListener('click', toogleChat);
+
+                    favButton.addEventListener('click', function () {
+                    });
+
+                    favButton.addEventListener('mouseenter', function () {
+                        newUser.removeEventListener('click', toogleChat);
+                    });
+
+                    favButton.addEventListener('mouseleave', function () {
+                        newUser.addEventListener('click', toogleChat);
+                    });
+
+                    addUserButton.addEventListener('click', function () {
+                    });
+
+                    addUserButton.addEventListener('mouseenter', function () {
+                        newUser.removeEventListener('click', toogleChat);
+                    });
+
+                    addUserButton.addEventListener('mouseleave', function () {
+                        newUser.addEventListener('click', toogleChat);
+                    });
                 }
 
                 getStatuses();
