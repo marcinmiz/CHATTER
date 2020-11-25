@@ -102,6 +102,14 @@ function go(current_user_id) {
                     favButton.appendChild(favIcon);
                     newUser.appendChild(favButton);
 
+                    let addUserButton = document.createElement('a');
+                    addUserButton.setAttribute('class', 'user-group-add');
+                    addUserButton.setAttribute('type', 'button');
+                    let addUserIcon = document.createElement('i');
+                    addUserIcon.setAttribute('class', 'icon-user-add');
+                    addUserButton.appendChild(addUserIcon);
+                    newUser.appendChild(addUserButton);
+
                     usersList.appendChild(newUser);
 
                 }
