@@ -90,14 +90,26 @@ main
     place-self: center;
 }
 
+.user-favourite
+{
+    color: gold;
+    grid-area: favourite;
+    place-self: center;
+}
+
+.user-favourite:hover
+{
+    color: gold;
+}
+
 .user
 {
     display: grid;
     grid-template-columns: 10% 35% 10% 15% 20% 5% 5%;
     grid-template-rows: 50% 50%;
     grid-template-areas:
-            "avatar name user-type status"
-            "avatar name new-message new-message";
+            "avatar name user-type status . favourite"
+            "avatar name new-message new-message new-message favourite";
     background-color: #808080;
     border-radius: 10px;
     padding: 10px;

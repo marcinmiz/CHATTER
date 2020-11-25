@@ -94,6 +94,14 @@ function go(current_user_id) {
                     userStatus.setAttribute('class', 'user-status');
                     newUser.appendChild(userStatus);
 
+                    let favButton = document.createElement('a');
+                    favButton.setAttribute('class', 'user-favourite');
+                    favButton.setAttribute('type', 'button');
+                    let favIcon = document.createElement('i');
+                    favIcon.setAttribute('class', 'icon-star-empty');
+                    favButton.appendChild(favIcon);
+                    newUser.appendChild(favButton);
+
                     usersList.appendChild(newUser);
 
                 }
