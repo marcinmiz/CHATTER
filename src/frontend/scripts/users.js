@@ -41,8 +41,9 @@ function go(current_user_id) {
             .then((res) => res.json())
             .then((data) => {
                 console.log(data);
+                const usersStatuses = document.getElementsByClassName("user-status");
                 for (let i = 0; i < usersNumber; i++) {
-                    document.getElementById('status' + data[i].user_id).innerHTML = data[i].last_activity;
+                    usersStatuses[i].innerHTML = data[i].last_activity;
                 }
             })
             .catch((error) => console.log(error))
@@ -89,9 +90,19 @@ function go(current_user_id) {
                     userType.appendChild(userIcon);
                     newUser.appendChild(userType);
 
+                    let userStatus = document.createElement('div');
+                    userStatus.setAttribute('class', 'user-status');
+                    newUser.appendChild(userStatus);
+
                     usersList.appendChild(newUser);
 
                 }
+
+                getStatuses();
+
+                setInterval(function () {
+                    getStatuses();
+                }, 2000);
 
                 })
             .catch((error) => console.log(error))
