@@ -29,9 +29,9 @@ require_once '../../core/init.php';
 
     <?php
     echo <<< END
-    
-    <script>
 
+    <script>
+    
         function getFile(fileName, element) {
             
             fetch(fileName, {
@@ -44,7 +44,7 @@ require_once '../../core/init.php';
                 })
                 .catch((error) => console.log(error))
         }
-        getFile("extended_mainbar.php", 'header');
+        getFile("extended_mainbar.html", 'header');
 
     </script>
 

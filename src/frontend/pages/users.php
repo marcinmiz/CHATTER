@@ -53,7 +53,7 @@ $user = new \backend\model\User();
                 })
                 .catch((error) => console.log(error))
         }
-        getFile("extended_mainbar.php", 'header');
+        getFile("extended_mainbar.html", 'header');
         getFile("users_content.html", 'content');
 
     </script>
