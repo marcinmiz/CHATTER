@@ -1,9 +1,9 @@
-function go(current_user_id) {
+function go() {
 
     var usersNumber;
 
-    function getUser(id = current_user_id) {
-        fetch('../../api/users/get/user/' + id + "/", {
+    function getUser() {
+        fetch('../../api/users/get/user/' + localStorage.getItem("sender_id") + "/", {
             headers: {
                 'Accept': 'application/json'
             }
@@ -21,8 +21,8 @@ function go(current_user_id) {
         updateLastActivity();
     }, 3000);
 
-    function updateLastActivity(id = current_user_id) {
-        fetch("../../api/users/update/last_activity/"+id+"/", {
+    function updateLastActivity() {
+        fetch("../../api/users/update/last_activity/" + localStorage.getItem("sender_id") + "/", {
             headers: {
                 'Accept': 'application/json'
             }
@@ -32,8 +32,8 @@ function go(current_user_id) {
             .catch(error => console.log(error))
     }
 
-    function getStatuses(id = current_user_id) {
-        fetch('../../api/users/get/statuses/'+id+"/", {
+    function getStatuses() {
+        fetch('../../api/users/get/statuses/' + localStorage.getItem("sender_id") + "/", {
             headers: {
                 'Accept': 'application/json'
             }
@@ -50,8 +50,8 @@ function go(current_user_id) {
     }
 
 
-    function getAllUsers(id = current_user_id) {
-        fetch('../../api/users/get/all_users/'+id+"/", {
+    function getAllUsers() {
+        fetch('../../api/users/get/all_users/' + localStorage.getItem("sender_id") + "/", {
             headers: {
                 'Accept': 'application/json'
             }
@@ -113,7 +113,8 @@ function go(current_user_id) {
                     usersList.appendChild(newUser);
 
                     function toogleChat() {
-                        localStorage.setItem("user_id", data[i].user_id);
+                        localStorage.setItem("receiver_id", data[i].user_id);
+                        localStorage.setItem("group", "private");
                         location="chat.php";
                     }
 

@@ -36,6 +36,7 @@ $user = new \backend\model\User();
     $current_user_id = $_SESSION['user'];
     echo <<< END
     <script>
+        localStorage.setItem("sender_id", $current_user_id);
 
         async function getFile(fileName, element) {
             
@@ -48,7 +49,7 @@ $user = new \backend\model\User();
                     document.getElementById(element).innerHTML = data;
                     if (element === 'content')
                     {
-                       go($current_user_id);
+                       go();
                     }
                 })
                 .catch((error) => console.log(error))
