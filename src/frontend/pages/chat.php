@@ -17,6 +17,7 @@ require_once '../../core/init.php';
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 
     <link href="../../extras/fontello/css/fontello.css" rel="stylesheet" type="text/css"/>
+
     <link rel="stylesheet" href="../stylesheets/chat.css">
 
     <link rel="stylesheet" href="../stylesheets/main.css">
@@ -25,9 +26,12 @@ require_once '../../core/init.php';
 </head>
 <body>
 
-    <div id="header">Loading</div>
+    <div id="header"></div>
+    <div id="content" class="container">Loading</div>
+
 
     <?php
+
     echo <<< END
 
     <script>
@@ -41,10 +45,12 @@ require_once '../../core/init.php';
                 .then(res => res.text())
                 .then((data) => {
                     document.getElementById(element).innerHTML = data;
+
                 })
                 .catch((error) => console.log(error))
         }
         getFile("extended_mainbar.html", 'header');
+        getFile("chat_content.html", 'content');
 
     </script>
 
