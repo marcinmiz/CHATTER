@@ -42,3 +42,22 @@ main
     left: 40%;
     z-index: 100;
 }
+
+.send-textarea
+{
+    border-radius: 20px;
+    background-color: burlywood;
+    margin: 5px;
+    padding: 10px;
+    border: none;
+    opacity: 0.6;
+}
+
+.send-button
+{
+    border-radius: 100%;
+    border: none;
+    font-size: 30px;
+    background: transparent;
+    color: burlywood;
+}
