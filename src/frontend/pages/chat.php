@@ -29,6 +29,7 @@ require_once '../../core/init.php';
     <div id="header"></div>
     <div id="content" class="container">Loading</div>
 
+    <script src="../scripts/chat.js"></script>
 
     <?php
 
@@ -45,7 +46,10 @@ require_once '../../core/init.php';
                 .then(res => res.text())
                 .then((data) => {
                     document.getElementById(element).innerHTML = data;
-
+                    if (element === 'content')
+                    {
+                       go();
+                    }
                 })
                 .catch((error) => console.log(error))
         }
