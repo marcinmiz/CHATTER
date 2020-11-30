@@ -14,7 +14,16 @@ class Chat
 
     public function sendMessage($data) {
 
-        if($this->_db->insert('private_messages',
+        if ($data['group'])
+        {
+            $table = 'private_messages';
+
+        } else {
+
+            $table = 'group_messages';
+        }
+
+        if($this->_db->insert($table,
             [
                 'sender_id' => $data['sender_id'],
                 'receiver_id' => $data['receiver_id'],
