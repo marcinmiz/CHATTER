@@ -72,3 +72,23 @@ main
     border-radius: 10px;
     padding: 5px 10px;
 }
+
+.message-sender
+{
+    align-items: flex-end;
+}
+
+.message-sender .message
+{
+    background-color: #91897e;
+}
+
+.message-receiver
+{
+    align-items: flex-start;
+}
+
+.message-receiver .message
+{
+    background-color: #303030;
+}
