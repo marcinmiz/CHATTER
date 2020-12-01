@@ -36,4 +36,32 @@ class Chat
 
         return false;
     }
+
+    public function getAllMessages($data) {
+
+        if ($data['group'] === true)
+        {
+            $table = "group_messages";
+
+        } else {
+
+            $table = "private_messages";
+        }
+
+        $sql = "UPDATE ". $table ." SET new = ? WHERE (sender_id = ? OR receiver_id = ?) AND (sender_id = ? OR receiver_id = ?) AND new = true";
+        $params = [false, $data['current_user_id'], $data['current_user_id'], $data['another_user_id'], $data['another_user_id']];
+
+        $this->_db->query($sql, $params);
+
+        $sql = "SELECT u.user_name, u.surname, m.receiver_id, m.message_text, m.sending_date FROM users u INNER JOIN ". $table ." m on u.user_id = m.sender_id WHERE (sender_id = ? OR receiver_id = ?) AND (sender_id = ? OR receiver_id = ?) ORDER BY sending_date ASC";
+        $params = [$data['current_user_id'], $data['current_user_id'], $data['another_user_id'], $data['another_user_id']];
+
+        $result = $this->_db->query($sql, $params);
+        if(!$result->error())
+        {
+            return $result->results();
+        }
+
+        return false;
+    }
 }
