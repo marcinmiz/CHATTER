@@ -3,7 +3,7 @@ function go() {
     var usersNumber;
 
     function getUser() {
-        fetch('../../api/users/get/user/' + localStorage.getItem("sender_id") + "/", {
+        fetch('../../api/users/get/user/' + localStorage.getItem("current_user_id") + "/", {
             headers: {
                 'Accept': 'application/json'
             }
@@ -22,7 +22,7 @@ function go() {
     }, 3000);
 
     function updateLastActivity() {
-        fetch("../../api/users/update/last_activity/" + localStorage.getItem("sender_id") + "/", {
+        fetch("../../api/users/update/last_activity/" + localStorage.getItem("current_user_id") + "/", {
             headers: {
                 'Accept': 'application/json'
             }
@@ -33,7 +33,7 @@ function go() {
     }
 
     function getStatuses() {
-        fetch('../../api/users/get/statuses/' + localStorage.getItem("sender_id") + "/", {
+        fetch('../../api/users/get/statuses/' + localStorage.getItem("current_user_id") + "/", {
             headers: {
                 'Accept': 'application/json'
             }
@@ -51,7 +51,7 @@ function go() {
 
 
     function getAllUsers() {
-        fetch('../../api/users/get/all_users/' + localStorage.getItem("sender_id") + "/", {
+        fetch('../../api/users/get/all_users/' + localStorage.getItem("current_user_id") + "/", {
             headers: {
                 'Accept': 'application/json'
             }
@@ -60,6 +60,7 @@ function go() {
             .then(data => {
                 usersNumber = data.length;
                 const usersList = document.getElementById("users-list");
+
                 for (let i = 0; i < data.length; i++) {
                     let newUser = document.createElement('div');
                     newUser.setAttribute("class", "user");
@@ -113,7 +114,7 @@ function go() {
                     usersList.appendChild(newUser);
 
                     function toogleChat() {
-                        localStorage.setItem("receiver_id", data[i].user_id);
+                        localStorage.setItem("another_user_id", data[i].user_id);
                         localStorage.setItem("group", "private");
                         location="chat.php";
                     }

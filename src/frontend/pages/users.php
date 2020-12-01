@@ -36,7 +36,7 @@ $user = new \backend\model\User();
     $current_user_id = $_SESSION['user'];
     echo <<< END
     <script>
-        localStorage.setItem("sender_id", $current_user_id);
+        localStorage.setItem("current_user_id", $current_user_id);
 
         async function getFile(fileName, element) {
             
