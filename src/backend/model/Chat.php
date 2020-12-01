@@ -64,4 +64,35 @@ class Chat
 
         return false;
     }
+
+    public function getAllNewMessages($data) {
+
+        if ($data['group'] === true)
+        {
+            $table = "group_messages";
+
+        } else {
+
+            $table = "private_messages";
+        }
+
+        $sql = "SELECT u.user_name, u.surname, m.receiver_id, m.message_text, m.sending_date FROM users u INNER JOIN ". $table ." m on u.user_id = m.sender_id WHERE receiver_id = ? AND sender_id = ? AND m.new = true ORDER BY sending_date ASC";
+        $params = [$data['current_user_id'], $data['another_user_id']];
+
+        $result = $this->_db->query($sql, $params);
+        $error = $result->error();
+        $reply = $result->results();
+
+        $sql = "UPDATE ". $table ." SET new = ? WHERE receiver_id = ? AND sender_id = ? AND new = true";
+        $params = [false, $data['current_user_id'], $data['another_user_id']];
+
+        $this->_db->query($sql, $params);
+
+        if(!$error)
+        {
+            return $reply;
+        }
+
+        return false;
+    }
 }
