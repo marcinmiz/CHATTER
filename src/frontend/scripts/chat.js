@@ -14,14 +14,16 @@ function go() {
     }
 
     function sendMessage() {
-        var sendInput = document.getElementsByClassName("send-input")[0];
+        var sendInput = document.getElementsByClassName("send-textarea")[0];
         var message = sendInput.value;
-        sendInput.innerHTML = "";
-        data = {
-          'sender_id' : localStorage.getItem('sender_id'),
-            'receiver_id' : localStorage.getItem('receiver_id'),
+
+        var data = {
+            'action' : 'send',
+            'complement' : 'message',
+            'sender_id' : localStorage.getItem('current_user_id'),
+            'receiver_id' : localStorage.getItem('another_user_id'),
             'message' : message,
-            'group' : (localStorage.getItem("group") === "private")
+            'group' : localStorage.getItem("group") === "group"
         };
         fetch('../../api/chats/send/message/', {
             method: 'POST',
@@ -30,7 +32,7 @@ function go() {
             },
             body: JSON.stringify(data)
         })
-            .then(res => res.text())
+            .then(res => res.json())
             .then(data => {
                 console.log(data);
             })
