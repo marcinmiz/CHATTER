@@ -92,3 +92,15 @@ main
 {
     background-color: #303030;
 }
+
+.date-indicator
+{
+    text-align: center;
+    padding: 10px;
+}
+
+.hour-indicator
+{
+    font-size: 10px;
+    text-align: center;
+}
