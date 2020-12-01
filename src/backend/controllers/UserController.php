@@ -39,6 +39,7 @@ switch($action){
                 break;
             case "" :
                 //404 - not found;
+                echo json_encode('not found' + $action + " " + $complement);
                 break;
         }
         break;
@@ -50,10 +51,12 @@ switch($action){
                 break;
             case "" :
                 //404 - not found;
+                echo json_encode('not found' + $action + " " + $complement);
                 break;
         }
         break;
     case "" :
         //404 - not found;
+        echo json_encode('not found' + $action);
         break;
 }
