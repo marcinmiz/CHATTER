@@ -37,6 +37,10 @@ switch($action){
                 $chatRestHandler = new ChatRestHandler();
                 $chatRestHandler->getAllMessages($data);
                 break;
+            case "all_new_messages":
+                $chatRestHandler = new ChatRestHandler();
+                $chatRestHandler->getAllNewMessages($data);
+                break;
             case "" :
                 //404 - not found;
                 echo json_encode("Not found " + $action + " " + $complement);
