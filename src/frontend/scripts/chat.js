@@ -137,7 +137,21 @@ function go() {
                     }
                 } else
                 {
+                    for (let i = 0; i < data.length; i++)
+                    {
+                        let dateIndicatorsNumber = chatHistory.getElementsByClassName('date-indicator').length;
+                        previous_date = chatHistory.getElementsByClassName('date-indicator')[dateIndicatorsNumber - 1].innerHTML;
+                        previous_date = new Date(previous_date.substr(0, 4) + previous_date.substr(5, 3) + previous_date.substr(6, 3));
+                        current_date = new Date(data[i].sending_date);
+                        let current_date2 = new Date(current_date.getFullYear(), current_date.getMonth(), current_date.getDate());
+                        if (current_date2 > previous_date)
+                        {
+                            let dateIndicator = '<div class="date-indicator">' + current_date2.toLocaleString("pl-PL", {style:"day", day:"2-digit", style:"month", month:"2-digit", style:"year", year:"numeric"}) + '</div>';
+                            chatHistory.innerHTML += dateIndicator;
+                        }
 
+                        createNewMessage(data, i, current_date);
+                    }
                 }
 
             })
