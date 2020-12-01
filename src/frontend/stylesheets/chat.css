@@ -28,7 +28,6 @@ main
     background-color: #424b55;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     min-height: 670px;
     margin: 5px;
     border-radius: 5px;
@@ -50,7 +49,6 @@ main
     margin: 5px;
     padding: 10px;
     border: none;
-    opacity: 0.6;
 }
 
 .send-button
