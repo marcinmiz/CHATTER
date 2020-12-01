@@ -158,4 +158,44 @@ function go() {
             .catch(error => console.log(error))
     }
 
+    function getAllMessages() {
+
+        let data = {
+            'action' : 'get',
+            'complement' : 'all_messages',
+            'current_user_id' : localStorage.getItem('current_user_id'),
+            'another_user_id' : localStorage.getItem('another_user_id'),
+            'group' : localStorage.getItem("group") === "group"
+        };
+        fetch('../../api/chats/get/all_messages/', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                var chatHistory = document.getElementById('chat-history');
+
+                if (data.length === 0)
+                {
+                    chatHistory.innerHTML = "<div class='no-message-prompt'>You haven't sent and received any message yet</div>";
+                }
+
+                for (let i = 0; i < data.length; i++)
+                {
+                    serveNewMessage(data, i);
+                }
+
+                setInterval(function () {
+                    getAllNewMessages();
+                }, 3000);
+
+            })
+            .catch(error => console.log(error))
+    }
+    getAllMessages();
+
 }
