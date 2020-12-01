@@ -8,3 +8,4 @@ RewriteRule ^users/get/statuses/([0-9]+)/$ ../backend/controllers/UserController
 RewriteRule ^users/update/last_activity/([0-9]+)/$ ../backend/controllers/UserController.php?action=update&complement=last_activity&user_id=$1 [nc,qsa]
 RewriteRule ^users/get/user/([0-9]+)/$ ../backend/controllers/UserController.php?action=get&complement=user&user_id=$1 [nc,qsa]
 RewriteRule ^chats/send/message/$ ../backend/controllers/ChatController.php [nc,qsa]
+RewriteRule ^chats/get/all_messages/$ ../backend/controllers/ChatController.php [nc,qsa]
