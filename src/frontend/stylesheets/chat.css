@@ -120,3 +120,20 @@ main
     border-radius: 100%;
     margin-right: 5px;
 }
+
+@media(max-width: 600px)
+{
+    .send-container
+    {
+        left: 10%;
+    }
+}
+
+
+@media(min-width: 600px) and (max-width: 768px)
+{
+    .send-container
+    {
+        left: 25%;
+    }
+}
