@@ -1,5 +1,20 @@
 function go() {
 
+    setInterval(function () {
+        updateLastActivity();
+    }, 3000);
+
+    function updateLastActivity() {
+        fetch("../../api/users/update/last_activity/" + localStorage.getItem("current_user_id") + "/", {
+            headers: {
+                'Accept': 'application/json'
+            }
+        })
+            .then(res => res.json())
+            .then(data => console.log(data))
+            .catch(error => console.log(error))
+    }
+
     document.getElementsByClassName("send-textarea")[0].addEventListener("focus",  enlargeSendTextArea);
     document.getElementsByClassName("send-textarea")[0].addEventListener("blur",  reduceSendTextArea);
 
