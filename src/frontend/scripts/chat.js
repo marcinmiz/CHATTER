@@ -104,4 +104,44 @@ function go() {
         }
         createNewMessage(data, i, current_date);
     }
+
+    function getAllNewMessages() {
+
+        let data = {
+            'action': 'get',
+            'complement': 'all_new_messages',
+            'current_user_id': localStorage.getItem('current_user_id'),
+            'another_user_id': localStorage.getItem('another_user_id'),
+            'group': localStorage.getItem("group") === "group"
+        };
+        fetch('../../api/chats/get/all_new_messages/', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                var chatHistory = document.getElementById('chat-history');
+                var previous_date, current_date;
+
+                if (chatHistory.childNodes[0].innerText === "You haven't sent and received any message yet")
+                {
+                    for (let i = 0; i < data.length; i++)
+                    {
+                        chatHistory.innerHTML = "";
+                        serveNewMessage(data, i);
+
+                    }
+                } else
+                {
+
+                }
+
+            })
+            .catch(error => console.log(error))
+    }
+
 }
