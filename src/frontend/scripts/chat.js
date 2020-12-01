@@ -55,4 +55,27 @@ function go() {
             .catch(error => console.log(error))
     }
     document.getElementsByClassName("send-button")[0].addEventListener('click', sendMessage);
+
+    function createNewMessage(data, i, current_date) {
+        var chatHistory = document.getElementById('chat-history');
+
+        let newMessage = '<div class="new-message">\n' +
+            '<div class="message">' +
+            '<div class="message-full-name"><img class="message-avatar" src="../../extras/img/avatar.png"><div>' + data[i].user_name + ' ' + data[i].surname + '</div></div>' +
+            data[i].message_text +
+            '<div class="hour-indicator">' + (current_date.getHours() < 10 ? '0' : '') + current_date.getHours() + ':' + (current_date.getMinutes() < 10 ? '0' : '') + current_date.getMinutes() + ':' + (current_date.getSeconds() < 10 ? '0' : '') + current_date.getSeconds() + '</div>\n' +
+            '</div>\n' +
+            '</div>';
+
+        chatHistory.innerHTML += newMessage;
+
+        if (data[i].receiver_id === localStorage.getItem('current_user_id'))
+        {
+            chatHistory.lastElementChild.classList.add("message-receiver");
+        } else {
+
+            chatHistory.lastElementChild.classList.add("message-sender");
+        }
+    }
+
 }
