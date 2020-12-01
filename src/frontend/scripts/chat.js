@@ -35,6 +35,7 @@ function go() {
             .then(res => res.json())
             .then(data => {
                 console.log(data);
+                sendInput.value = "";
             })
             .catch(error => console.log(error))
     }
