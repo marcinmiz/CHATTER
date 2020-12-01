@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS `private_messages` (
   `sender_id` int(11) NOT NULL,
   `receiver_id` int(11) NOT NULL,
   `message_text` VARCHAR(255) NOT NULL,
-  `sent_date` DATETIME NOT NULL,
+  `sending_date` DATETIME NOT NULL,
   `new` boolean NOT NULL,
   FOREIGN KEY(sender_id) REFERENCES users(user_id),
   FOREIGN KEY(receiver_id) REFERENCES users(user_id)
@@ -61,7 +61,7 @@ CREATE TABLE IF NOT EXISTS `group_messages` (
   `sender_id` int(11) NOT NULL,
   `receiver_id` int(11) NOT NULL,
   `message_text` VARCHAR(255) NOT NULL,
-  `sent_date` DATETIME NOT NULL,
+  `sending_date` DATETIME NOT NULL,
   `new` boolean NOT NULL,
   FOREIGN KEY(sender_id) REFERENCES users(user_id),
   FOREIGN KEY(receiver_id) REFERENCES groups(group_id)

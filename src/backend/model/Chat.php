@@ -16,11 +16,10 @@ class Chat
 
         if ($data['group'])
         {
-            $table = 'private_messages';
+            $table = 'group_messages';
 
         } else {
-
-            $table = 'group_messages';
+            $table = 'private_messages';
         }
 
         if($this->_db->insert($table,
@@ -28,7 +27,7 @@ class Chat
                 'sender_id' => $data['sender_id'],
                 'receiver_id' => $data['receiver_id'],
                 'message_text' => $data['message'],
-                'sent_date' => date('Y-m-d H:i:s'),
+                'sending_date' => date('Y-m-d H:i:s'),
                 'new' => true
             ]))
         {
