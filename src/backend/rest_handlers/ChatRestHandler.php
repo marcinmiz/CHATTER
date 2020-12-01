@@ -72,4 +72,18 @@ class ChatRestHandler extends SimpleRestHandler
         return $statusCode;
     }
 
+    public function getAllMessages($data)
+    {
+        $rawData = $this->chat->getAllMessages($data);
+        if ($rawData === false) {
+            $statusCode = 404;
+            $rawData = array('error' => 'Cannot get all messages!');
+        } else {
+            $statusCode = 200;
+        }
+
+        $this->selectEncoding($statusCode, $rawData);
+        return $statusCode;
+    }
+
 }
