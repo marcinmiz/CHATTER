@@ -10,8 +10,11 @@ class ChatTest extends TestCase
     {
         $this->dbMock = $this->getMockBuilder('backend\model\Redirect')
             ->addMethods(['insert'])
+            ->addMethods(['query'])
+            ->addMethods(['error'])
+            ->addMethods(['results'])
             ->getMock();
-
+        $this->dbMock->method('query')->willReturn($this->dbMock);
     }
 
     public function testSuccessfulSendMessage()
@@ -40,5 +43,41 @@ class ChatTest extends TestCase
             'group' => true
         ];
         $this->assertFalse($chat->sendMessage($data));
+    }
+
+    public function testSuccessfulGetAllPrivateMessages() {
+        $this->dbMock->method('error')->willReturn(false);
+        $messages = array(
+            'user_name' => 'Cindy',
+            'surname' => 'Dindi',
+            'receiver_id' => 15,
+            'message_text' => 'Hey!',
+            'sending_date' => '2020-11-30 15:33:44'
+        );
+        $this->dbMock->method('results')->willReturn($messages);
+
+        $data = [
+            'action' => 'get',
+            'complement' => 'all_messages',
+            'current_user_id' => 16,
+            'another_user_id' => 15,
+            'group' => false
+        ];
+        $chat = new Chat($this->dbMock);
+        $this->assertEqualsCanonicalizing($messages, $chat->getAllMessages($data));
+    }
+
+    public function testFailedGetAllPrivateMessages() {
+        $this->dbMock->method('error')->willReturn(true);
+
+        $data = [
+            'action' => 'get',
+            'complement' => 'all_messages',
+            'current_user_id' => 16,
+            'another_user_id' => 15,
+            'group' => false
+        ];
+        $chat = new Chat($this->dbMock);
+        $this->assertEqualsCanonicalizing(false, $chat->getAllMessages($data));
     }
 }

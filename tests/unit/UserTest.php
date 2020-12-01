@@ -408,4 +408,5 @@ class UserTest extends TestCase
         $this->assertEqualsCanonicalizing($a1, $user->findAll($user_id));
         unset($_SESSION['user']);
     }
+
 }
