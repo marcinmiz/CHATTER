@@ -78,4 +78,30 @@ function go() {
         }
     }
 
+    function serveNewMessage(data, i) {
+
+        var chatHistory = document.getElementById('chat-history');
+        var previous_date, current_date, current_date2;
+
+        if (i === 0)
+        {
+            current_date = new Date(data[i].sending_date);
+            current_date2 = new Date(current_date.getFullYear(), current_date.getMonth(), current_date.getDate());
+            let dateIndicator = '<div class="date-indicator">' + current_date2.toLocaleDateString() + '</div>';
+            chatHistory.innerHTML += dateIndicator;
+
+        } else
+        {
+            previous_date = new Date(data[i-1].sending_date);
+            previous_date = new Date(previous_date.getFullYear(), previous_date.getMonth(), previous_date.getDate());
+            current_date = new Date(data[i].sending_date);
+            current_date2 = new Date(current_date.getFullYear(), current_date.getMonth(), current_date.getDate());
+            if (current_date2 > previous_date)
+            {
+                let dateIndicator = '<div class="date-indicator">' + current_date2.toLocaleString("pl-PL", {style:"day", day:"2-digit", style:"month", month:"2-digit", style:"year", year:"numeric"}) + '</div>';
+                chatHistory.innerHTML += dateIndicator;
+            }
+        }
+        createNewMessage(data, i, current_date);
+    }
 }
