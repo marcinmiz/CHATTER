@@ -104,3 +104,19 @@ main
     font-size: 10px;
     text-align: center;
 }
+
+.message-full-name
+{
+    display: flex;
+    font-size: 12px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.message-avatar
+{
+    width: 30px;
+    border-radius: 100%;
+    margin-right: 5px;
+}
