@@ -1,5 +1,20 @@
 function go() {
 
+    function getUser() {
+        fetch('../../api/users/get/user/' + localStorage.getItem("current_user_id") + "/", {
+            headers: {
+                'Accept': 'application/json'
+            }
+        })
+            .then(res => res.json())
+            .then(data => {
+                document.getElementsByTagName('p')[0].innerHTML = data.user_name + " " + data.surname;
+            })
+            .catch(error => console.log(error))
+    }
+
+    getUser();
+
     setInterval(function () {
         updateLastActivity();
     }, 3000);
