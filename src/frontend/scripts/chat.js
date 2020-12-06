@@ -1,5 +1,17 @@
 function go() {
 
+    function resize()
+    {
+        let heights = window.innerHeight - 82;
+        document.getElementsByClassName('chat-container')[0].style.height = heights + "px";
+    }
+
+    resize();
+
+    window.onresize = function() {
+        resize();
+    };
+
     function getUser() {
         fetch('../../api/users/get/user/' + localStorage.getItem("current_user_id") + "/", {
             headers: {
