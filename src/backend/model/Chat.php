@@ -31,7 +31,13 @@ class Chat
                 'new' => true
             ]))
         {
-            return true;
+            $error = $this->_db->error();
+            $sql = "SELECT u.user_name, u.surname, m.receiver_id, m.message_text, m.sending_date FROM users u INNER JOIN ". $table ." m on u.user_id = m.sender_id WHERE sender_id = ? ORDER BY sending_date DESC LIMIT 1";
+            $this->_db->query($sql, [Session::get('user')]);
+            if (!$error && !$this->_db->error())
+            {
+                return $this->_db->results();
+            }
         }
 
         return false;
