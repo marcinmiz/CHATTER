@@ -60,7 +60,7 @@ require_once '../../core/init.php';
 
 if (\backend\model\Session::exists('email_sent')) {
     $email_sent_message = \backend\model\Session::flash('email_sent');
-    echo <<< END
+echo <<< END
 <script>
     document.getElementById('notification').append("$email_sent_message");
     var br = document.createElement("br");
@@ -71,19 +71,30 @@ END;
 
 if (\backend\model\Session::exists('registration')) {
                                 $registration_message = \backend\model\Session::flash('registration');
-                                echo <<< END
+echo <<< END
 <script>
     document.getElementById('notification').append("$registration_message");
     var br = document.createElement("br");
     document.getElementById('notification').appendChild(br);
 </script>
 END;
-                            }
+}
 
 if (\backend\model\Input::exists('post')) {
     if (\backend\model\Token::check(\backend\model\Input::get('token'))) {
         $user = new \backend\model\User(\backend\model\Session::get('new_user_email'));
         $user->activate(\backend\model\Input::get('activation_code'));
+
+        if (\backend\model\Session::exists('wrong_code')) {
+            $wrong_code_message = \backend\model\Session::flash('wrong_code');
+echo <<< END
+<script>
+    document.getElementById('notification').append("$wrong_code_message");
+    var br = document.createElement("br");
+    document.getElementById('notification').appendChild(br);
+</script>
+END;
+        }
     }
 }
 
