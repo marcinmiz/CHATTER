@@ -30,8 +30,9 @@ function go() {
             .catch(error => console.log(error))
     }
 
-    document.getElementsByClassName("send-textarea")[0].addEventListener("focus",  enlargeSendTextArea);
-    document.getElementsByClassName("send-textarea")[0].addEventListener("blur",  reduceSendTextArea);
+    var textArea = document.getElementsByClassName("send-textarea")[0];
+    textArea.addEventListener("focus",  enlargeSendTextArea);
+    textArea.addEventListener("blur",  reduceSendTextArea);
 
     function enlargeSendTextArea() {
         document.getElementsByClassName("send-textarea")[0].setAttribute("rows", "4");
@@ -120,6 +121,23 @@ function go() {
         createNewMessage(data, i, current_date);
     }
 
+    function serveNewMessageWhenOtherDisplayed(data, i) {
+        let chatHistory = document.getElementById('chat-history');
+        let previous_date, current_date;
+
+        let dateIndicatorsNumber = chatHistory.getElementsByClassName('date-indicator').length;
+        previous_date = chatHistory.getElementsByClassName('date-indicator')[dateIndicatorsNumber - 1].innerHTML;
+        previous_date = new Date(previous_date.substr(0, 4) + previous_date.substr(5, 3) + previous_date.substr(6, 3));
+        current_date = new Date(data[i].sending_date);
+        let current_date2 = new Date(current_date.getFullYear(), current_date.getMonth(), current_date.getDate());
+        if (current_date2 > previous_date)
+        {
+            let dateIndicator = '<div class="date-indicator">' + current_date2.toLocaleString("pl-PL", {style:"day", day:"2-digit", style:"month", month:"2-digit", style:"year", year:"numeric"}) + '</div>';
+            chatHistory.innerHTML += dateIndicator;
+        }
+
+        createNewMessage(data, i, current_date);
+    }
     function getAllNewMessages() {
 
         let data = {
@@ -139,8 +157,7 @@ function go() {
             .then(res => res.json())
             .then(data => {
                 console.log(data);
-                var chatHistory = document.getElementById('chat-history');
-                var previous_date, current_date;
+                let chatHistory = document.getElementById('chat-history');
 
                 if (chatHistory.childNodes[0].innerText === "You haven't sent and received any message yet")
                 {
@@ -154,18 +171,7 @@ function go() {
                 {
                     for (let i = 0; i < data.length; i++)
                     {
-                        let dateIndicatorsNumber = chatHistory.getElementsByClassName('date-indicator').length;
-                        previous_date = chatHistory.getElementsByClassName('date-indicator')[dateIndicatorsNumber - 1].innerHTML;
-                        previous_date = new Date(previous_date.substr(0, 4) + previous_date.substr(5, 3) + previous_date.substr(6, 3));
-                        current_date = new Date(data[i].sending_date);
-                        let current_date2 = new Date(current_date.getFullYear(), current_date.getMonth(), current_date.getDate());
-                        if (current_date2 > previous_date)
-                        {
-                            let dateIndicator = '<div class="date-indicator">' + current_date2.toLocaleString("pl-PL", {style:"day", day:"2-digit", style:"month", month:"2-digit", style:"year", year:"numeric"}) + '</div>';
-                            chatHistory.innerHTML += dateIndicator;
-                        }
-
-                        createNewMessage(data, i, current_date);
+                        serveNewMessageWhenOtherDisplayed(data, i);
                     }
                 }
 
