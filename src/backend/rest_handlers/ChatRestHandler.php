@@ -60,12 +60,11 @@ class ChatRestHandler extends SimpleRestHandler
     public function sendMessage($data)
     {
         $rawData = $this->chat->sendMessage($data);
-        if (!$rawData) {
+        if ($rawData === false) {
             $statusCode = 404;
             $rawData = array('error' => 'Cannot send message!');
         } else {
             $statusCode = 200;
-            $rawData = array('success' => 'Successfully sent message!');
         }
 
         $this->selectEncoding($statusCode, $rawData);
