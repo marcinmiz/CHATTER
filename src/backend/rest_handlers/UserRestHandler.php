@@ -125,4 +125,20 @@ class UserRestHandler extends SimpleRestHandler
         $this->selectEncoding($statusCode, $rawData);
         return $statusCode;
     }
+
+    function markUserAsFavourite($liker_user_id, $popular_user_id)
+    {
+        $rawData = $this->user->markUserAsFavourite($liker_user_id, $popular_user_id);
+
+        if ($rawData == false) {
+            $statusCode = 404;
+            $rawData = array('error' => 'User has not been added to favourite users!');
+        } else {
+            $statusCode = 200;
+            $rawData = array('success' => 'User has been added to favourite users!');
+        }
+
+        $this->selectEncoding($statusCode, $rawData);
+        return $statusCode;
+    }
 }
