@@ -16,6 +16,10 @@ if(isset($_GET["complement"]))
 $user_id = 0;
 if(isset($_GET["user_id"]))
     $user_id = $_GET["user_id"];
+
+$popular_user_id = 0;
+if(isset($_GET["popular_user_id"]))
+    $user_id = $_GET["popular_user_id"];
 /*
 controls the RESTful services
 URL mapping
@@ -48,6 +52,18 @@ switch($action){
             case "last_activity":
                 $userRestHandler = new UserRestHandler();
                 $userRestHandler->updateLastActivity($user_id);
+                break;
+            case "" :
+                //404 - not found;
+                echo json_encode('not found' + $action + " " + $complement);
+                break;
+        }
+        break;
+    case "mark":
+        switch($complement) {
+            case "favourite_user":
+                $userRestHandler = new UserRestHandler();
+                $userRestHandler->markUserAsFavourite($user_id, $popular_user_id);
                 break;
             case "" :
                 //404 - not found;
