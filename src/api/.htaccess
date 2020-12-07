@@ -10,3 +10,4 @@ RewriteRule ^users/get/user/([0-9]+)/$ ../backend/controllers/UserController.php
 RewriteRule ^chats/send/message/$ ../backend/controllers/ChatController.php [nc,qsa]
 RewriteRule ^chats/get/all_messages/$ ../backend/controllers/ChatController.php [nc,qsa]
 RewriteRule ^chats/get/all_new_messages/$ ../backend/controllers/ChatController.php [nc,qsa]
+RewriteRule ^users/mark/favourite_user/([0-9]+)/([0-9]+)/$ ../backend/controllers/UserController.php?action=mark&complement=favourite_user&user_id=$1&popular_user_id=$2 [nc,qsa]
