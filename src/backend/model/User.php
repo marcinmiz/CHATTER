@@ -181,4 +181,12 @@ class User
         }
         return false;
     }
+
+    public function markUserAsFavourite($liker_user_id, $popular_user_id) {
+        $this->_db->insert('favourite_users', array($liker_user_id, $popular_user_id));
+        if (!$this->_db->error()) {
+            return true;
+        }
+        return false;
+    }
 }
