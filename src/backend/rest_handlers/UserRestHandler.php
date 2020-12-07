@@ -141,4 +141,19 @@ class UserRestHandler extends SimpleRestHandler
         $this->selectEncoding($statusCode, $rawData);
         return $statusCode;
     }
+
+    function getAllFavouriteUsers($user_id)
+    {
+        $rawData = $this->user->getAllFavouriteUsers($user_id);
+
+        if ($rawData == false) {
+            $statusCode = 404;
+            $rawData = array('error' => 'Error occurred during adding to favourite users!');
+        } else {
+            $statusCode = 200;
+        }
+
+        $this->selectEncoding($statusCode, $rawData);
+        return $statusCode;
+    }
 }
