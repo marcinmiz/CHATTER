@@ -41,6 +41,10 @@ switch($action){
                 $userRestHandler = new UserRestHandler();
                 $userRestHandler->getUser($user_id);
                 break;
+            case "all_favourite_users":
+                $userRestHandler = new UserRestHandler();
+                $userRestHandler->getAllFavouriteUsers($user_id);
+                break;
             case "" :
                 //404 - not found;
                 echo json_encode('not found' + $action + " " + $complement);
