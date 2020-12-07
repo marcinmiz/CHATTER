@@ -189,4 +189,12 @@ class User
         }
         return false;
     }
+
+    public function getAllFavouriteUsers($user_id) {
+        $this->_db->query('SELECT f.popular_user_id, u.user_name, u.surname FROM favourite_users f INNER JOIN users u WHERE f.liker_user_id=27 AND u.account_active=1 AND u.user_id = f.popular_user_id', array($user_id));
+        if (!$this->_db->error()) {
+            return $this->_db->results();
+        }
+        return false;
+    }
 }
