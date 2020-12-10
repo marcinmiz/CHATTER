@@ -214,6 +214,8 @@ function go() {
         }
         getAllMessages();
 
+        getAllUsers(1);
+
     };
     script.src = "../scripts/common.js";
 

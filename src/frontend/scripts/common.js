@@ -41,8 +41,15 @@ function getStatuses() {
         .catch((error) => console.log(error))
 }
 
-function getAllUsers() {
-    fetch('../../api/users/get/all_users/' + localStorage.getItem("current_user_id") + "/0/0/", {
+function getAllUsers(fav) {
+    let ids;
+    if (fav)
+    {
+        ids = localStorage.getItem("current_user_id") + "/" + localStorage.getItem("another_user_id")
+    } else {
+        ids = localStorage.getItem("current_user_id") + "/0"
+    }
+    fetch('../../api/users/get/all_users/' + ids + "/" + fav +"/", {
         headers: {
             'Accept': 'application/json'
         }
@@ -51,7 +58,24 @@ function getAllUsers() {
         .then(data => {
             console.log(data);
             usersNumber = data.length;
-            const usersList = document.getElementById("users-list");
+            let usersList;
+
+            if (fav)
+            {
+                usersList = document.getElementById("favourite-users-list");
+                if (usersNumber < 1)
+                {
+                    usersList.innerText = "No favourite users";
+                    return;
+                }
+            } else {
+                usersList = document.getElementById("users-list");
+                if (usersNumber < 1)
+                {
+                    usersList.innerText = "No users";
+                    return;
+                }
+            }
 
             for (let i = 0; i < data.length; i++) {
                 let newUser = document.createElement('div');

@@ -8,7 +8,7 @@ function go() {
             updateLastActivity();
         }, 3000);
 
-        getAllUsers();
+        getAllUsers(0);
 
     };
     script.src = "../scripts/common.js";
