@@ -174,10 +174,42 @@ class User
 
     }
 
-    public function findAll($user_id) {
-        $this->_db->query('SELECT user_id, user_name, surname FROM users WHERE user_id!=? AND account_active=1', array($user_id));
-        if (!$this->_db->error() && $this->_db->count() > 0) {
-            return $this->_db->results();
+    public function findAll($user_id, $another_user_id, $fav) {
+        $fav_users = $this->getAllFavouriteUsers($user_id, $another_user_id);
+        $length = $this->_db->count();
+
+        if ($fav_users !== false)
+        {
+            if ($fav)
+            {
+                for ($i=0; $i < $length; $i++)
+                {
+                    $fav_users[$i]->fav = true;
+                }
+                return $fav_users;
+            }
+            $this->_db->query('SELECT user_id, user_name, surname FROM users WHERE user_id!=? AND account_active=1', array($user_id));
+            $results = $this->_db->results();
+            $length2 = $this->_db->count();
+
+            for ($i=0; $i < $length2; $i++)
+            {
+                for ($j=0; $j < $length; $j++)
+                {
+                    if ($fav_users[$j]->user_id === $results[$i]->user_id)
+                    {
+                        $results[$i]->fav = true;
+                        break;
+                    } else {
+                        $results[$i]->fav = false;
+                    }
+                }
+            }
+
+            if (!$this->_db->error()) {
+                return $this->_db->results();
+            }
+            return false;
         }
         return false;
     }
