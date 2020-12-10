@@ -146,6 +146,7 @@ function getAllUsers(fav) {
                 newUser.addEventListener('click', toogleChat);
 
                 favButton.addEventListener('click', function () {
+                    localStorage.setItem("favourite_user_id", data[i].user_id);
                 });
 
                 favButton.addEventListener('mouseenter', function () {
