@@ -18,6 +18,7 @@ class UserRestHandlerTest extends TestCase
             ->addMethods(['findAll'])
             ->addMethods(['find'])
             ->addMethods(['data'])
+            ->addMethods(['markUserAsFavourite'])
             ->getMock();
     }
 
@@ -275,5 +276,35 @@ class UserRestHandlerTest extends TestCase
         $rest_handler = new UserRestHandler($this->user);
         $this->assertEquals(404, $rest_handler->getUser($user_id));
         unset($_SERVER['HTTP_ACCEPT']);
+    }
+
+    /**
+     * @test
+     * @runInSeparateProcess
+     * @requires extension xdebug
+     **/
+    public function testSuccessfulMarkUserAsFavourite() {
+        $_SERVER['HTTP_ACCEPT'] = 'application/json';
+
+        $this->user->method('markUserAsFavourite')->willReturn(1);
+        $rest_handler = new UserRestHandler($this->user);
+        $this->assertEquals(200, $rest_handler->markUserAsFavourite(2,3));
+        unset($_SERVER['HTTP_ACCEPT']);
+
+    }
+
+    /**
+     * @test
+     * @runInSeparateProcess
+     * @requires extension xdebug
+     **/
+    public function testFailedUnmarkUserAsFavourite() {
+        $_SERVER['HTTP_ACCEPT'] = 'application/json';
+
+        $this->user->method('markUserAsFavourite')->willReturn(4);
+        $rest_handler = new UserRestHandler($this->user);
+        $this->assertEquals(404, $rest_handler->markUserAsFavourite(2,3));
+        unset($_SERVER['HTTP_ACCEPT']);
+
     }
 }
