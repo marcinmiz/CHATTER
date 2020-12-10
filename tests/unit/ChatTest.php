@@ -19,7 +19,16 @@ class ChatTest extends TestCase
 
     public function testSuccessfulSendMessage()
     {
+        $_SESSION['user'] = 1;
         $this->dbMock->method('insert')->willReturn(true);
+        $a = [];
+        $a[0] = new StdClass();
+        $a[0]->user_name = "Max";
+        $a[0]->surname = "Maxim";
+        $a[0]->receiver_id = 2;
+        $a[0]->message_text = "Hey";
+        $a[0]->sending_date = "2020-11-30 15:33:44";
+        $this->dbMock->method('results')->willReturn($a);
         $chat = new Chat($this->dbMock);
         $message = "Hi! How are you?";
         $data = [
@@ -28,7 +37,8 @@ class ChatTest extends TestCase
             'message' => $message,
             'group' => true
         ];
-        $this->assertTrue($chat->sendMessage($data));
+        $this->assertEqualsCanonicalizing($a, $chat->sendMessage($data));
+        unset($_SESSION['user']);
     }
 
     public function testFailedSendMessage()

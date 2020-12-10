@@ -356,7 +356,7 @@ class UserTest extends TestCase
         $user = new User(null, $this->dbMock);
         $_SESSION['user'] = 1;
 
-        $this->assertFalse($user->findAll($user_id));
+        $this->assertNull($user->findAll($user_id, 0, 0));
         unset($_SESSION['user']);
     }
 
@@ -374,7 +374,7 @@ class UserTest extends TestCase
         $user = new User(null, $this->dbMock);
         $_SESSION['user'] = 1;
 
-        $this->assertFalse($user->findAll($user_id));
+        $this->assertFalse($user->findAll($user_id, 0, 0));
         unset($_SESSION['user']);
     }
 
@@ -405,8 +405,29 @@ class UserTest extends TestCase
         $user = new User(null, $this->dbMock);
         $_SESSION['user'] = 3;
 
-        $this->assertEqualsCanonicalizing($a1, $user->findAll($user_id));
+        $this->assertEqualsCanonicalizing($a1, $user->findAll($user_id, 0, 0));
         unset($_SESSION['user']);
+    }
+
+    /**
+     * @test
+     * @runInSeparateProcess
+     **/
+    public function testSuccessfulMarkUserAsFavourite() {
+        $this->dbMock->method('error')->willReturn(false);
+        $user = new User(null, $this->dbMock);
+        $this->assertEquals(1, $user->markUserAsFavourite(1,2,1));
+    }
+
+    /**
+     * @test
+     * @runInSeparateProcess
+     * @requires extension xdebug
+     **/
+    public function testFailedMarkUserAsFavourite() {
+        $this->dbMock->method('error')->willReturn(true);
+        $user = new User(null, $this->dbMock);
+        $this->assertEquals(2, $user->markUserAsFavourite(1,2,1));
     }
 
 }
