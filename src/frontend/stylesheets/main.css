@@ -68,3 +68,28 @@ body
     margin: 5px;
     border: none;
 }
+
+.avatar-container
+{
+    display: flex;
+    padding: 5px;
+    justify-content: center;
+}
+
+.avatar
+{
+    width: 50px;
+    border-radius: 100%;
+}
+
+.avatar-container p
+{
+    margin-left: 10px;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+main
+{
+    width: 100%;
+}
