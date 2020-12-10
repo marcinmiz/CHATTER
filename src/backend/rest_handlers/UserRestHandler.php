@@ -88,13 +88,18 @@ class UserRestHandler extends SimpleRestHandler
         return $statusCode;
     }
 
-    function getAllUsers($user_id)
+    function getAllUsers($user_id, $another_user_id, $fav)
     {
-        $rawData = $this->user->findAll($user_id);
+        $rawData = $this->user->findAll($user_id, $another_user_id, $fav);
 
         if ($rawData == false) {
             $statusCode = 404;
-            $rawData = array('error' => 'No users found!');
+            if ($fav)
+            {
+                $rawData = array('error' => 'Error occurred during getting all favourite users!');
+            } else {
+                $rawData = array('error' => 'Error occurred during getting all users!');
+            }
         } else {
             $statusCode = 200;
         }
@@ -126,9 +131,9 @@ class UserRestHandler extends SimpleRestHandler
         return $statusCode;
     }
 
-    function markUserAsFavourite($liker_user_id, $popular_user_id)
+    function markUserAsFavourite($liker_user_id, $popular_user_id, $icon)
     {
-        $rawData = $this->user->markUserAsFavourite($liker_user_id, $popular_user_id);
+        $rawData = $this->user->markUserAsFavourite($liker_user_id, $popular_user_id, $icon);
         $statusCode = 500;
         switch ($rawData)
         {
@@ -148,21 +153,6 @@ class UserRestHandler extends SimpleRestHandler
                 $statusCode = 404;
                 $rawData = array('error' => 'User has not been deleted from favourite users!');
                 break;
-        }
-
-        $this->selectEncoding($statusCode, $rawData);
-        return $statusCode;
-    }
-
-    function getAllFavouriteUsers($user_id)
-    {
-        $rawData = $this->user->getAllFavouriteUsers($user_id);
-
-        if ($rawData == false) {
-            $statusCode = 404;
-            $rawData = array('error' => 'Error occurred during adding to favourite users!');
-        } else {
-            $statusCode = 200;
         }
 
         $this->selectEncoding($statusCode, $rawData);
