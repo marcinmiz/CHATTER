@@ -129,13 +129,25 @@ class UserRestHandler extends SimpleRestHandler
     function markUserAsFavourite($liker_user_id, $popular_user_id)
     {
         $rawData = $this->user->markUserAsFavourite($liker_user_id, $popular_user_id);
-
-        if ($rawData == false) {
-            $statusCode = 404;
-            $rawData = array('error' => 'User has not been added to favourite users!');
-        } else {
-            $statusCode = 200;
-            $rawData = array('success' => 'User has been added to favourite users!');
+        $statusCode = 500;
+        switch ($rawData)
+        {
+            case 1:
+                $statusCode = 200;
+                $rawData = array('success' => 'User has been added to favourite users!');
+                break;
+            case 2:
+                $statusCode = 404;
+                $rawData = array('error' => 'User has not been added to favourite users!');
+                break;
+            case 3:
+                $statusCode = 200;
+                $rawData = array('success' => 'User has been deleted from favourite users!');
+                break;
+            case 4:
+                $statusCode = 404;
+                $rawData = array('error' => 'User has not been deleted from favourite users!');
+                break;
         }
 
         $this->selectEncoding($statusCode, $rawData);
