@@ -163,3 +163,20 @@ main
     text-align: center;
     margin-top: 250px;
 }
+
+.layout
+{
+    display: grid;
+    grid-template-columns: 25% 50%;
+    grid-template-rows: 50% 50%;
+}
+
+.search
+{
+    grid-area: 1 / 1 / 2 / 2;
+}
+
+.chat
+{
+    grid-area: 1 / 2 / 2 / 3;
+}
