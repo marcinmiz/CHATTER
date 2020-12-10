@@ -115,17 +115,25 @@ function getAllUsers(fav) {
                 favButton.setAttribute('class', 'user-favourite');
                 favButton.setAttribute('type', 'button');
                 let favIcon = document.createElement('i');
-                favIcon.setAttribute('class', 'icon-star-empty');
+                if (data[i].fav){
+                    favIcon.setAttribute('class', 'icon-star');
+                } else {
+                    favIcon.setAttribute('class', 'icon-star-empty');
+                }
                 favButton.appendChild(favIcon);
                 newUser.appendChild(favButton);
 
-                let addUserButton = document.createElement('a');
-                addUserButton.setAttribute('class', 'user-group-add');
-                addUserButton.setAttribute('type', 'button');
-                let addUserIcon = document.createElement('i');
-                addUserIcon.setAttribute('class', 'icon-user-add');
-                addUserButton.appendChild(addUserIcon);
-                newUser.appendChild(addUserButton);
+                let addUserButton;
+
+                if (!fav){
+                    addUserButton = document.createElement('a');
+                    addUserButton.setAttribute('class', 'user-group-add');
+                    addUserButton.setAttribute('type', 'button');
+                    let addUserIcon = document.createElement('i');
+                    addUserIcon.setAttribute('class', 'icon-user-add');
+                    addUserButton.appendChild(addUserIcon);
+                    newUser.appendChild(addUserButton);
+                }
 
                 usersList.appendChild(newUser);
 
@@ -148,16 +156,18 @@ function getAllUsers(fav) {
                     newUser.addEventListener('click', toogleChat);
                 });
 
-                addUserButton.addEventListener('click', function () {
-                });
+                if (!fav) {
+                    addUserButton.addEventListener('click', function () {
+                    });
 
-                addUserButton.addEventListener('mouseenter', function () {
-                    newUser.removeEventListener('click', toogleChat);
-                });
+                    addUserButton.addEventListener('mouseenter', function () {
+                        newUser.removeEventListener('click', toogleChat);
+                    });
 
-                addUserButton.addEventListener('mouseleave', function () {
-                    newUser.addEventListener('click', toogleChat);
-                });
+                    addUserButton.addEventListener('mouseleave', function () {
+                        newUser.addEventListener('click', toogleChat);
+                    });
+                }
             }
 
             getStatuses();
