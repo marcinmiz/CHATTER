@@ -474,4 +474,28 @@ class UserTest extends TestCase
         $this->assertEqualsCanonicalizing($a,  $user->findAll(3,4, 1));
     }
 
+    /**
+     * @test
+     * @runInSeparateProcess
+     * @requires extension xdebug
+     **/
+    public function testSuccessfulGetNoneFavouriteUsers() {
+        $this->dbMock->method('error')->willReturn(false);
+        $this->dbMock->method('results')->willReturn([]);
+        $this->dbMock->method('count')->willReturn(0);
+        $user = new User(null, $this->dbMock);
+        $this->assertEqualsCanonicalizing([],  $user->findAll(3,4, 1));
+    }
+
+    /**
+     * @test
+     * @runInSeparateProcess
+     * @requires extension xdebug
+     **/
+    public function testFailedGetFavouriteUsers() {
+        $this->dbMock->method('error')->willReturn(true);
+        $this->dbMock->method('count')->willReturn(1);
+        $user = new User(null, $this->dbMock);
+        $this->assertFalse($user->findAll(3,4, 1));
+    }
 }
