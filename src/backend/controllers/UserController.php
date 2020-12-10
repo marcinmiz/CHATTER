@@ -17,9 +17,21 @@ $user_id = 0;
 if(isset($_GET["user_id"]))
     $user_id = $_GET["user_id"];
 
+$another_user_id = 0;
+if(isset($_GET["another_user_id"]))
+    $another_user_id = $_GET["another_user_id"];
+
 $popular_user_id = 0;
 if(isset($_GET["popular_user_id"]))
     $user_id = $_GET["popular_user_id"];
+
+$fav = 0;
+if(isset($_GET["fav"]))
+    $fav = $_GET["fav"];
+
+$icon = 0;
+if(isset($_GET["icon"]))
+    $icon = $_GET["icon"];
 /*
 controls the RESTful services
 URL mapping
@@ -31,7 +43,7 @@ switch($action){
         switch($complement){
             case "all_users":
                 $userRestHandler = new UserRestHandler();
-                $userRestHandler->getAllUsers($user_id);
+                $userRestHandler->getAllUsers($user_id, $another_user_id, $fav);
                 break;
             case "statuses":
                 $userRestHandler = new UserRestHandler();
@@ -40,10 +52,6 @@ switch($action){
             case "user":
                 $userRestHandler = new UserRestHandler();
                 $userRestHandler->getUser($user_id);
-                break;
-            case "all_favourite_users":
-                $userRestHandler = new UserRestHandler();
-                $userRestHandler->getAllFavouriteUsers($user_id);
                 break;
             case "" :
                 //404 - not found;
@@ -67,7 +75,7 @@ switch($action){
         switch($complement) {
             case "favourite_user":
                 $userRestHandler = new UserRestHandler();
-                $userRestHandler->markUserAsFavourite($user_id, $popular_user_id);
+                $userRestHandler->markUserAsFavourite($user_id, $popular_user_id, $icon);
                 break;
             case "" :
                 //404 - not found;
