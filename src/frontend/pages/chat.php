@@ -27,7 +27,7 @@ require_once '../../core/init.php';
 <body>
 
     <div id="header"></div>
-    <div id="content" class="container">Loading</div>
+    <div id="content" class="container col-sm-12">Loading</div>
 
     <script src="../scripts/chat.js"></script>
 
