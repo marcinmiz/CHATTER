@@ -452,4 +452,26 @@ class UserTest extends TestCase
         $this->assertEquals(4, $user->markUserAsFavourite(1,2,0));
     }
 
+    /**
+     * @test
+     * @runInSeparateProcess
+     * @requires extension xdebug
+     **/
+    public function testSuccessfulGet2FavouriteUsers() {
+        $this->dbMock->method('error')->willReturn(false);
+        $a = [];
+        $a[0] = new StdClass();
+        $a[0]->user_id = 1;
+        $a[0]->user_name = "Peter";
+        $a[0]->surname = "Parker";
+        $a[1] = new StdClass();
+        $a[1]->user_id = 2;
+        $a[1]->user_name = "George";
+        $a[1]->surname = "Smith";
+        $this->dbMock->method('results')->willReturn($a);
+        $this->dbMock->method('count')->willReturn(2);
+        $user = new User(null, $this->dbMock);
+        $this->assertEqualsCanonicalizing($a,  $user->findAll(3,4, 1));
+    }
+
 }
