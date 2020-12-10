@@ -1,3 +1,5 @@
+let usersNumber;
+
 function getUser() {
     fetch('../../api/users/get/user/' + localStorage.getItem("current_user_id") + "/", {
         headers: {

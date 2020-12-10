@@ -1,13 +1,18 @@
 function go() {
+    let script = document.createElement('script');
+    script.onload = function () {
 
-    var usersNumber;
+        getUser();
 
-    getUser();
+        setInterval(function () {
+            updateLastActivity();
+        }, 3000);
 
-    setInterval(function () {
-        updateLastActivity();
-    }, 3000);
+        getAllUsers();
 
-    getAllUsers();
+    };
+    script.src = "../scripts/common.js";
+
+    document.head.appendChild(script);
 
 }
