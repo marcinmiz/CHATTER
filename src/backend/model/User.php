@@ -182,16 +182,24 @@ class User
         return false;
     }
 
-    public function markUserAsFavourite($liker_user_id, $popular_user_id) {
-        $this->_db->insert('favourite_users', array($liker_user_id, $popular_user_id));
-        if (!$this->_db->error()) {
-            return true;
+    public function markUserAsFavourite($liker_user_id, $popular_user_id, $icon) {
+        if ($icon)
+        {
+            if (!$this->_db->query('INSERT INTO favourite_users VALUES(?,?)', array($liker_user_id, $popular_user_id))->error()) {
+                return 1;
+            }
+            return 2;
+        } else {
+            if (!$this->_db->query('DELETE FROM favourite_users WHERE liker_user_id=? AND popular_user_id=?', array($liker_user_id, $popular_user_id))->error()) {
+                return 3;
+            }
+            return 4;
         }
-        return false;
+
     }
 
-    public function getAllFavouriteUsers($user_id) {
-        $this->_db->query('SELECT f.popular_user_id, u.user_name, u.surname FROM favourite_users f INNER JOIN users u WHERE f.liker_user_id=27 AND u.account_active=1 AND u.user_id = f.popular_user_id', array($user_id));
+    private function getAllFavouriteUsers($user_id, $another_user_id) {
+        $this->_db->query('SELECT u.user_id, u.user_name, u.surname FROM favourite_users f INNER JOIN users u WHERE f.liker_user_id='.$user_id.' AND u.account_active=1 AND u.user_id = f.popular_user_id AND f.popular_user_id!='.$another_user_id, array($user_id));
         if (!$this->_db->error()) {
             return $this->_db->results();
         }
