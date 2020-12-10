@@ -3,11 +3,11 @@
 RewriteEngine on
 
 # map neat URL to internal URL
-RewriteRule ^users/get/all_users/([0-9]+)/([0-9]+)/([0-1])$ ../backend/controllers/UserController.php?action=get&complement=all_users&user_id=$1 [nc,qsa]
+RewriteRule ^users/get/all_users/([0-9]+)/([0-9]+)/([0-1])/$ ../backend/controllers/UserController.php?action=get&complement=all_users&user_id=$1&another_user_id=$2&fav=$3 [nc,qsa]
 RewriteRule ^users/get/statuses/([0-9]+)/$ ../backend/controllers/UserController.php?action=get&complement=statuses&user_id=$1 [nc,qsa]
 RewriteRule ^users/update/last_activity/([0-9]+)/$ ../backend/controllers/UserController.php?action=update&complement=last_activity&user_id=$1 [nc,qsa]
 RewriteRule ^users/get/user/([0-9]+)/$ ../backend/controllers/UserController.php?action=get&complement=user&user_id=$1 [nc,qsa]
 RewriteRule ^chats/send/message/$ ../backend/controllers/ChatController.php [nc,qsa]
 RewriteRule ^chats/get/all_messages/$ ../backend/controllers/ChatController.php [nc,qsa]
 RewriteRule ^chats/get/all_new_messages/$ ../backend/controllers/ChatController.php [nc,qsa]
-RewriteRule ^users/mark/favourite_user/([0-9]+)/([0-9]+)/([0-1])/$ ../backend/controllers/UserController.php?action=mark&complement=favourite_user&user_id=$1&popular_user_id=$2 [nc,qsa]
+RewriteRule ^users/mark/favourite_user/([0-9]+)/([0-9]+)/([0-1])/$ ../backend/controllers/UserController.php?action=mark&complement=favourite_user&user_id=$1&popular_user_id=$2&icon=$3 [nc,qsa]

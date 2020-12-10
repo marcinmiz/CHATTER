@@ -194,14 +194,14 @@ class User
 
             for ($i=0; $i < $length2; $i++)
             {
+                $results[$i]->fav = false;
+
                 for ($j=0; $j < $length; $j++)
                 {
                     if ($fav_users[$j]->user_id === $results[$i]->user_id)
                     {
                         $results[$i]->fav = true;
                         break;
-                    } else {
-                        $results[$i]->fav = false;
                     }
                 }
             }

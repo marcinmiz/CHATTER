@@ -92,7 +92,7 @@ class UserRestHandler extends SimpleRestHandler
     {
         $rawData = $this->user->findAll($user_id, $another_user_id, $fav);
 
-        if ($rawData == false) {
+        if ($rawData === false) {
             $statusCode = 404;
             if ($fav)
             {
