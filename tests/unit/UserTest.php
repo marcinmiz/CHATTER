@@ -430,4 +430,26 @@ class UserTest extends TestCase
         $this->assertEquals(2, $user->markUserAsFavourite(1,2,1));
     }
 
+    /**
+     * @test
+     * @runInSeparateProcess
+     * @requires extension xdebug
+     **/
+    public function testSuccessfulUnmarkUserAsFavourite() {
+        $this->dbMock->method('error')->willReturn(false);
+        $user = new User(null, $this->dbMock);
+        $this->assertEquals(3, $user->markUserAsFavourite(1,2,0));
+    }
+
+    /**
+     * @test
+     * @runInSeparateProcess
+     * @requires extension xdebug
+     **/
+    public function testFailedUnmarkUserAsFavourite() {
+        $this->dbMock->method('error')->willReturn(true);
+        $user = new User(null, $this->dbMock);
+        $this->assertEquals(4, $user->markUserAsFavourite(1,2,0));
+    }
+
 }
