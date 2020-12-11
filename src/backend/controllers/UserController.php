@@ -23,7 +23,7 @@ if(isset($_GET["another_user_id"]))
 
 $popular_user_id = 0;
 if(isset($_GET["popular_user_id"]))
-    $user_id = $_GET["popular_user_id"];
+    $popular_user_id = $_GET["popular_user_id"];
 
 $fav = 0;
 if(isset($_GET["fav"]))
