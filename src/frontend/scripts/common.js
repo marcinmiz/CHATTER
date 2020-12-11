@@ -147,6 +147,7 @@ function getAllUsers(fav) {
 
                 favButton.addEventListener('click', function () {
                     localStorage.setItem("favourite_user_id", data[i].user_id);
+                    markUserAsFavourite(favIcon);
                 });
 
                 favButton.addEventListener('mouseenter', function () {
@@ -179,4 +180,32 @@ function getAllUsers(fav) {
 
         })
         .catch((error) => console.log(error))
+}
+
+function markUserAsFavourite(favIcon) {
+    let okResponse;
+    let icon = favIcon.className === "icon-star-empty" ? 1 : 0;
+    fetch('../../api/users/mark/favourite_user/' + localStorage.getItem("current_user_id") + "/" + localStorage.getItem("favourite_user_id") + "/" + icon + "/", {
+        headers: {
+            'Accept': 'application/json'
+        }
+    })
+        .then(res => {
+            okResponse = res.ok;
+            res.json()
+        })
+        .then(data => {
+            if (okResponse)
+            {
+                if (icon)
+                {
+                    favIcon.setAttribute('class', 'icon-star');
+                } else {
+                    favIcon.setAttribute('class', 'icon-star-empty');
+                }
+            } else {
+                console.log("Action has not been done properly");
+            }
+        })
+        .catch(error => console.log(error))
 }
