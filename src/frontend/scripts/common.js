@@ -227,3 +227,74 @@ function markUserAsFavourite(favIcon) {
         })
         .catch(error => console.log(error))
 }
+
+function searchUsers(fav) {
+    clearInterval(interval);
+    let key = document.getElementsByClassName('search-input')[0].value;
+
+    let data = {
+        'action' : 'search',
+        'complement' : 'users',
+        'current_user_id': localStorage.getItem("current_user_id"),
+        'key' : key
+    };
+
+    if (fav)
+    {
+        data.another_user_id = localStorage.getItem("another_user_id");
+        data.online = document.getElementsByClassName('search-online-users')[0].checked;
+    } else {
+        data.another_user_id = 0;
+        data.online = document.getElementsByClassName('search-online-users')[0].checked;
+        data.favourite = document.getElementsByClassName('search-favourite-users')[0].checked;
+    }
+    console.log(key);
+    fetch('../../api/users/search/users/', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data);
+            usersNumber = data.length;
+            console.log(usersNumber);
+            let usersList;
+
+            if (fav)
+            {
+                usersList = document.getElementById("favourite-users-list");
+                if (usersNumber < 1)
+                {
+                    usersList.innerText = "No found favourite users";
+                    return;
+                }
+            } else {
+                usersList = document.getElementById("users-list");
+                if (usersNumber < 1)
+                {
+                    usersList.innerText = "No found users";
+                    return;
+                }
+            }
+            usersList.innerHTML = "";
+
+            let ids = [];
+
+            for (let i = 0; i < data.length; i++) {
+
+                createUserTab(fav, usersList, data, i);
+                ids.push(data[i].user_id);
+            }
+
+            getStatuses(ids);
+
+            interval = setInterval(function () {
+                getStatuses(ids);
+            }, 2000);
+
+        })
+        .catch(error => console.log(error))
+}
