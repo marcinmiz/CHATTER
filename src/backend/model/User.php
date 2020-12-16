@@ -151,8 +151,21 @@ class User
         return false;
     }
 
-    public function getStatuses($user_id) {
-        $this->_db->query('SELECT user_id, last_activity FROM users WHERE user_id!=? AND account_active=1', array($user_id));
+    public function getStatuses($data) {
+        $array = array($data['current_user_id']);
+        $length = count($data['ids']);
+        $ids = '';
+        for ($i = 1; $i <= $length; $i++)
+        {
+            $ids .= 'user_id=?';
+            if ($i > 0 && $i < $length)
+            {
+                $ids .= ' OR ';
+            }
+            $array[$i] = $data['ids'][$i-1];
+        }
+        $sql = 'SELECT user_id, last_activity FROM users WHERE user_id!=? AND account_active=1 AND ('.$ids.')';
+        $this->_db->query($sql, $array);
         if (!$this->_db->error()) {
             $result = $this->_db->results();
             for ($i = 0; $i < $this->_db->count(); $i++) {
