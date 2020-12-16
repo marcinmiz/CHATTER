@@ -610,4 +610,32 @@ class UserTest extends TestCase
         ];
         $this->assertEquals($a, $user->searchUsers($data));
     }
+
+    /**
+     * @test
+     * @runInSeparateProcess
+     * @requires extension xdebug
+     **/
+    public function testSearchUsersAllFavUsersEmptyKey3FavouriteFound() {
+        $this->dbMock->method('error')->willReturn(false);
+        $a[0] = new StdClass();
+        $a[0]->user_id = 1;
+        $a[0]->user_name = "Silvia";
+        $a[0]->surname = "Johnson";
+        $a[1] = new StdClass();
+        $a[1]->user_id = 2;
+        $a[1]->user_name = "Mike";
+        $a[1]->surname = "Johnas";
+        $this->dbMock->method('results')->willReturn($a);
+        $user = new User(null, $this->dbMock);
+        $data = [
+            'action' => 'search',
+            'complement' => 'users',
+            'current_user_id' => 34,
+            'another_user_id' => 78,
+            'key' => '',
+            'online' => false,
+        ];
+        $this->assertEquals($a, $user->searchUsers($data));
+    }
 }
