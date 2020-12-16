@@ -10,6 +10,13 @@ function go() {
 
         getAllUsers(0);
 
+        document.getElementsByClassName('search-input')[0].addEventListener('change', function () {
+            searchUsers(0);
+        });
+
+        document.getElementsByClassName('search-button')[0].addEventListener('click', function () {
+            searchUsers(0);
+        });
     };
     script.src = "../scripts/common.js";
 
