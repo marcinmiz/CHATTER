@@ -564,4 +564,50 @@ class UserTest extends TestCase
         $this->assertEquals(false, $user->searchUsers($data));
     }
 
+    /**
+     * @test
+     * @runInSeparateProcess
+     * @requires extension xdebug
+     **/
+    public function testFailedSearchUsers3wordsKey() {
+        $this->dbMock->method('error')->willReturn(false);
+        $user = new User(null, $this->dbMock);
+        $data = [
+            'action' => 'search',
+            'complement' => 'users',
+            'current_user_id' => 12,
+            'another_user_id' => 25,
+            'key' => 'Bill Duncan Johnson'
+        ];
+        $this->assertEquals(false, $user->searchUsers($data));
+    }
+
+    /**
+     * @test
+     * @runInSeparateProcess
+     * @requires extension xdebug
+     **/
+    public function testSearchUsersAllUsers2FavouriteFound() {
+        $this->dbMock->method('error')->willReturn(false);
+        $a[0] = new StdClass();
+        $a[0]->user_id = 1;
+        $a[0]->user_name = "Silvia";
+        $a[0]->surname = "Johnson";
+        $a[1] = new StdClass();
+        $a[1]->user_id = 2;
+        $a[1]->user_name = "Mike";
+        $a[1]->surname = "Johnas";
+        $this->dbMock->method('results')->willReturn($a);
+        $user = new User(null, $this->dbMock);
+        $data = [
+            'action' => 'search',
+            'complement' => 'users',
+            'current_user_id' => 12,
+            'another_user_id' => 0,
+            'key' => 'Jo',
+            'online' => false,
+            'favourite' => true
+        ];
+        $this->assertEquals($a, $user->searchUsers($data));
+    }
 }
