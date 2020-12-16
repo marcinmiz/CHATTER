@@ -223,11 +223,15 @@ class UserTest extends TestCase
     public function testGetStatusesQueryExecutionProblem() {
         $this->dbMock->method('error')->willReturn(true);
 
-        $user_id = 30;
+        $data = array();
+        $data['action'] = 'get';
+        $data['complement'] = 'statuses';
+        $data['current_user_id'] = 30;
+        $data['ids'] = [24,57,43,66];
 
         $user = new User(null, $this->dbMock);
         $_SESSION['user'] = 1;
-        $this->assertFalse($user->getStatuses($user_id));
+        $this->assertFalse($user->getStatuses($data));
         unset($_SESSION['user']);
     }
 
@@ -239,7 +243,11 @@ class UserTest extends TestCase
     public function testGetStatusesUserLastActivityLessThan10seconds() {
         $this->dbMock->method('error')->willReturn(false);
 
-        $user_id = 60;
+        $data = array();
+        $data['action'] = 'get';
+        $data['complement'] = 'statuses';
+        $data['current_user_id'] = 60;
+        $data['ids'] = [1,2];
 
         $user1Time = new StdClass();
         $user1Time->user_id = 1;
@@ -264,7 +272,7 @@ class UserTest extends TestCase
         $user2Badge->last_activity = '<span class="badge badge-pill badge-success">Online</span>';
 
         $a2 = array($user1Badge, $user2Badge);
-        $this->assertEqualsCanonicalizing($a2, $user->getStatuses($user_id));
+        $this->assertEqualsCanonicalizing($a2, $user->getStatuses($data));
         unset($_SESSION['user']);
     }
 
@@ -276,7 +284,11 @@ class UserTest extends TestCase
     public function testGetStatusesUserLastActivityEqualTo10seconds() {
         $this->dbMock->method('error')->willReturn(false);
 
-        $user_id = 60;
+        $data = array();
+        $data['action'] = 'get';
+        $data['complement'] = 'statuses';
+        $data['current_user_id'] = 60;
+        $data['ids'] = [1,2];
 
         $user1Time = new StdClass();
         $user1Time->user_id = 1;
@@ -301,7 +313,7 @@ class UserTest extends TestCase
         $user2Badge->last_activity = '<span class="badge badge-pill badge-danger">Offline</span>';
 
         $a2 = array($user1Badge, $user2Badge);
-        $this->assertEqualsCanonicalizing($a2, $user->getStatuses($user_id));
+        $this->assertEqualsCanonicalizing($a2, $user->getStatuses($data));
         unset($_SESSION['user']);
     }
 
@@ -313,7 +325,11 @@ class UserTest extends TestCase
     public function testGetStatusesUserLastActivityMoreThan10seconds() {
         $this->dbMock->method('error')->willReturn(false);
 
-        $user_id = 60;
+        $data = array();
+        $data['action'] = 'get';
+        $data['complement'] = 'statuses';
+        $data['current_user_id'] = 60;
+        $data['ids'] = [1,2];
 
         $user1Time = new StdClass();
         $user1Time->user_id = 1;
@@ -338,7 +354,7 @@ class UserTest extends TestCase
         $user2Badge->last_activity = '<span class="badge badge-pill badge-danger">Offline</span>';
 
         $a2 = array($user1Badge, $user2Badge);
-        $this->assertEqualsCanonicalizing($a2, $user->getStatuses($user_id));
+        $this->assertEqualsCanonicalizing($a2, $user->getStatuses($data));
         unset($_SESSION['user']);
     }
 
