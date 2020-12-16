@@ -213,7 +213,6 @@ class User
             return false;
         }
         return false;
-
     }
 
     public function markUserAsFavourite($liker_user_id, $popular_user_id, $icon) {
@@ -236,6 +235,85 @@ class User
         $this->_db->query('SELECT u.user_id, u.user_name, u.surname FROM favourite_users f INNER JOIN users u WHERE f.liker_user_id='.$user_id.' AND u.account_active=1 AND u.user_id = f.popular_user_id AND f.popular_user_id!='.$another_user_id, array($user_id));
         if (!$this->_db->error()) {
             return $this->_db->results();
+        }
+        return false;
+    }
+
+    public function searchUsers($data) {
+        $fav_users = $this->getAllFavouriteUsers($data['current_user_id'], $data['another_user_id']);
+        if ($fav_users !== false)
+        {
+            $length3 = $this->_db->count();
+            if ($data['another_user_id'] !== 0 && $data['key'] === "" && !$data['online'])
+            {
+                for ($i=0; $i < $length3; $i++)
+                {
+                    $fav_users[$i]->fav = true;
+                }
+                return $fav_users;
+            }
+            $parts = explode(" ", $data['key']);
+            $length = count($parts);
+            if ($length < 1)
+            {
+                return false;
+            } else if ($length == 1)
+            {
+                if ($data['another_user_id'] === 0 && $data['favourite'])
+                {
+                    $sql = 'SELECT u.user_id, u.user_name, u.surname FROM users u INNER JOIN favourite_users f WHERE u.user_id!=? AND u.account_active=1 AND (u.user_name LIKE "%'.$parts[0].'%" OR u.surname LIKE "%'.$parts[0].'%")';
+                } else {
+                    $sql = 'SELECT user_id, user_name, surname FROM users WHERE user_id!=? AND account_active=1 AND (user_name LIKE "%'.$parts[0].'%" OR surname LIKE "%'.$parts[0].'%")';
+                }
+            } else if ($length == 2)
+            {
+                if ($data['another_user_id'] === 0 && $data['favourite'])
+                {
+                    $sql = 'SELECT u.user_id, u.user_name, u.surname FROM users u INNER JOIN favourite_users f WHERE u.user_id!=? AND u.account_active=1 AND ((user_name LIKE "%' . $parts[0] . '%" AND surname LIKE "%' . $parts[1] . '%") OR (user_name LIKE "%' . $parts[1] . '%" AND surname LIKE "%' . $parts[0] . '%"))';
+                } else {
+                    $sql = 'SELECT user_id, user_name, surname FROM users WHERE user_id!=? AND account_active=1 AND ((user_name LIKE "%' . $parts[0] . '%" AND surname LIKE "%' . $parts[1] . '%") OR (user_name LIKE "%' . $parts[1] . '%" AND surname LIKE "%' . $parts[0] . '%"))';
+                }
+            } else {
+                return false;
+            }
+            if ($data['online'])
+            {
+                if ($data['another_user_id'] === 0 && $data['favourite'])
+                {
+                    $sql .= " AND u.last_activity > now() - INTERVAL 10 SECOND";
+                } else {
+                    $sql .= " AND last_activity > now() - INTERVAL 10 SECOND";
+                }
+            }
+            if ($data['another_user_id'] === 0 && $data['favourite'])
+            {
+                $sql .= " AND f.liker_user_id=". $data['current_user_id'] ." AND f.popular_user_id=u.user_id";
+            }
+
+            $this->_db->query($sql, array($data['current_user_id']));
+
+            if (!$this->_db->error()) {
+
+                $results = $this->_db->results();
+                $length2 = $this->_db->count();
+
+                for ($i=0; $i < $length2; $i++)
+                {
+                    $results[$i]->fav = false;
+
+                    for ($j=0; $j < $length3; $j++)
+                    {
+                        if ($fav_users[$j]->user_id === $results[$i]->user_id)
+                        {
+                            $results[$i]->fav = true;
+                            break;
+                        }
+                    }
+                }
+                return $results;
+            }
+            return false;
+
         }
         return false;
     }
