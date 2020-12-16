@@ -24,18 +24,27 @@ function updateLastActivity() {
         .catch(error => console.log(error))
 }
 
-function getStatuses() {
-    fetch('../../api/users/get/statuses/' + localStorage.getItem("current_user_id") + "/", {
+function getStatuses(ids) {
+    let data = {
+        'action': 'get',
+        'complement': 'statuses',
+        'current_user_id': localStorage.getItem("current_user_id"),
+        'ids': ids
+    };
+    fetch('../../api/users/get/statuses/', {
+        method: 'POST',
         headers: {
             'Accept': 'application/json'
-        }
+        },
+        body: JSON.stringify(data)
     })
         .then((res) => res.json())
         .then((data) => {
             console.log(data);
-            const usersStatuses = document.getElementsByClassName("user-status");
             for (let i = 0; i < usersNumber; i++) {
-                usersStatuses[i].innerHTML = data[i].last_activity;
+                let id = 'user-status' + data[i].user_id;
+                let userStatus = document.getElementById(id);
+                userStatus.innerHTML = data[i].last_activity;
             }
         })
         .catch((error) => console.log(error))
