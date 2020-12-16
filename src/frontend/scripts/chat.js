@@ -216,6 +216,13 @@ function go() {
 
         getAllUsers(1);
 
+        document.getElementsByClassName('search-input')[0].addEventListener('change', function () {
+            searchUsers(1);
+        });
+
+        document.getElementsByClassName('search-button')[0].addEventListener('click', function () {
+            searchUsers(1);
+        });
     };
     script.src = "../scripts/common.js";
 
