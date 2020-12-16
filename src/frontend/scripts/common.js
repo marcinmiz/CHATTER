@@ -1,4 +1,5 @@
 let usersNumber;
+var interval;
 
 function getUser() {
     fetch('../../api/users/get/user/' + localStorage.getItem("current_user_id") + "/", {
@@ -44,21 +45,117 @@ function getStatuses(ids) {
             for (let i = 0; i < usersNumber; i++) {
                 let id = 'user-status' + data[i].user_id;
                 let userStatus = document.getElementById(id);
+                console.log(id);
                 userStatus.innerHTML = data[i].last_activity;
             }
         })
         .catch((error) => console.log(error))
 }
 
+function createUserTab(fav, usersList, data, i) {
+    let newUser = document.createElement('div');
+    newUser.setAttribute("class", "user");
+
+    let avatar = document.createElement('div');
+    avatar.setAttribute("class", "user-avatar");
+
+    let avatarImg = document.createElement('img');
+    avatarImg.setAttribute("class", "avatar");
+    avatarImg.setAttribute('src', '../../extras/img/avatar.png');
+    avatarImg.setAttribute('alt', 'avatar');
+    avatar.appendChild(avatarImg);
+    newUser.appendChild(avatar);
+
+    let nameContainer = document.createElement('div');
+    nameContainer.setAttribute('class', 'user-name');
+
+    let name = document.createElement('p');
+    name.appendChild(document.createTextNode(data[i].user_name + ' ' + data[i].surname));
+    nameContainer.appendChild(name);
+    newUser.appendChild(nameContainer);
+
+    let userType = document.createElement('div');
+    userType.setAttribute('class', 'user-type');
+
+    let userIcon = document.createElement('i');
+    userIcon.setAttribute('class', 'icon-user');
+    userType.appendChild(userIcon);
+    newUser.appendChild(userType);
+
+    let userStatus = document.createElement('div');
+    userStatus.id = 'user-status'+data[i].user_id;
+    newUser.appendChild(userStatus);
+
+    let favButton = document.createElement('a');
+    favButton.setAttribute('class', 'user-favourite');
+    favButton.setAttribute('type', 'button');
+    let favIcon = document.createElement('i');
+    if (data[i].fav){
+        favIcon.setAttribute('class', 'icon-star');
+    } else {
+        favIcon.setAttribute('class', 'icon-star-empty');
+    }
+    favButton.appendChild(favIcon);
+    newUser.appendChild(favButton);
+
+    let addUserButton;
+
+    if (!fav){
+        addUserButton = document.createElement('a');
+        addUserButton.setAttribute('class', 'user-group-add');
+        addUserButton.setAttribute('type', 'button');
+        let addUserIcon = document.createElement('i');
+        addUserIcon.setAttribute('class', 'icon-user-add');
+        addUserButton.appendChild(addUserIcon);
+        newUser.appendChild(addUserButton);
+    }
+
+    usersList.appendChild(newUser);
+
+    function toogleChat() {
+        localStorage.setItem("another_user_id", data[i].user_id);
+        localStorage.setItem("group", "private");
+        location="chat.php";
+    }
+
+    newUser.addEventListener('click', toogleChat);
+
+    favButton.addEventListener('click', function () {
+        localStorage.setItem("favourite_user_id", data[i].user_id);
+        markUserAsFavourite(favIcon);
+    });
+
+    favButton.addEventListener('mouseenter', function () {
+        newUser.removeEventListener('click', toogleChat);
+    });
+
+    favButton.addEventListener('mouseleave', function () {
+        newUser.addEventListener('click', toogleChat);
+    });
+
+    if (!fav) {
+        addUserButton.addEventListener('click', function () {
+        });
+
+        addUserButton.addEventListener('mouseenter', function () {
+            newUser.removeEventListener('click', toogleChat);
+        });
+
+        addUserButton.addEventListener('mouseleave', function () {
+            newUser.addEventListener('click', toogleChat);
+        });
+    }
+}
+
 function getAllUsers(fav) {
-    let ids;
+    let complement;
     if (fav)
     {
-        ids = localStorage.getItem("current_user_id") + "/" + localStorage.getItem("another_user_id")
+        complement = localStorage.getItem("current_user_id") + "/" + localStorage.getItem("another_user_id")
     } else {
-        ids = localStorage.getItem("current_user_id") + "/0"
+        complement = localStorage.getItem("current_user_id") + "/0"
     }
-    fetch('../../api/users/get/all_users/' + ids + "/" + fav +"/", {
+    fetch('../../api/users/get/all_users/' + complement + "/" + fav +"/", {
         headers: {
             'Accept': 'application/json'
         }
@@ -86,105 +183,17 @@ function getAllUsers(fav) {
                 }
             }
 
+            let ids = [];
             for (let i = 0; i < data.length; i++) {
-                let newUser = document.createElement('div');
-                newUser.setAttribute("class", "user");
 
-                let avatar = document.createElement('div');
-                avatar.setAttribute("class", "user-avatar");
-
-                let avatarImg = document.createElement('img');
-                avatarImg.setAttribute("class", "avatar");
-                avatarImg.setAttribute('src', '../../extras/img/avatar.png');
-                avatarImg.setAttribute('alt', 'avatar');
-                avatar.appendChild(avatarImg);
-                newUser.appendChild(avatar);
-
-                let nameContainer = document.createElement('div');
-                nameContainer.setAttribute('class', 'user-name');
-
-                let name = document.createElement('p');
-                name.appendChild(document.createTextNode(data[i].user_name + ' ' + data[i].surname));
-                nameContainer.appendChild(name);
-                newUser.appendChild(nameContainer);
-
-                let userType = document.createElement('div');
-                userType.setAttribute('class', 'user-type');
-
-                let userIcon = document.createElement('i');
-                userIcon.setAttribute('class', 'icon-user');
-                userType.appendChild(userIcon);
-                newUser.appendChild(userType);
-
-                let userStatus = document.createElement('div');
-                userStatus.setAttribute('class', 'user-status');
-                newUser.appendChild(userStatus);
-
-                let favButton = document.createElement('a');
-                favButton.setAttribute('class', 'user-favourite');
-                favButton.setAttribute('type', 'button');
-                let favIcon = document.createElement('i');
-                if (data[i].fav){
-                    favIcon.setAttribute('class', 'icon-star');
-                } else {
-                    favIcon.setAttribute('class', 'icon-star-empty');
-                }
-                favButton.appendChild(favIcon);
-                newUser.appendChild(favButton);
-
-                let addUserButton;
-
-                if (!fav){
-                    addUserButton = document.createElement('a');
-                    addUserButton.setAttribute('class', 'user-group-add');
-                    addUserButton.setAttribute('type', 'button');
-                    let addUserIcon = document.createElement('i');
-                    addUserIcon.setAttribute('class', 'icon-user-add');
-                    addUserButton.appendChild(addUserIcon);
-                    newUser.appendChild(addUserButton);
-                }
-
-                usersList.appendChild(newUser);
-
-                function toogleChat() {
-                    localStorage.setItem("another_user_id", data[i].user_id);
-                    localStorage.setItem("group", "private");
-                    location="chat.php";
-                }
-
-                newUser.addEventListener('click', toogleChat);
-
-                favButton.addEventListener('click', function () {
-                    localStorage.setItem("favourite_user_id", data[i].user_id);
-                    markUserAsFavourite(favIcon);
-                });
-
-                favButton.addEventListener('mouseenter', function () {
-                    newUser.removeEventListener('click', toogleChat);
-                });
-
-                favButton.addEventListener('mouseleave', function () {
-                    newUser.addEventListener('click', toogleChat);
-                });
-
-                if (!fav) {
-                    addUserButton.addEventListener('click', function () {
-                    });
-
-                    addUserButton.addEventListener('mouseenter', function () {
-                        newUser.removeEventListener('click', toogleChat);
-                    });
-
-                    addUserButton.addEventListener('mouseleave', function () {
-                        newUser.addEventListener('click', toogleChat);
-                    });
-                }
+                createUserTab(fav, usersList, data, i);
+                ids.push(data[i].user_id);
             }
 
-            getStatuses();
+            getStatuses(ids);
 
-            setInterval(function () {
-                getStatuses();
+            interval = setInterval(function () {
+                getStatuses(ids);
             }, 2000);
 
         })
