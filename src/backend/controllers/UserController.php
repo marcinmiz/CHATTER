@@ -32,6 +32,17 @@ if(isset($_GET["fav"]))
 $icon = 0;
 if(isset($_GET["icon"]))
     $icon = $_GET["icon"];
+
+$data = file_get_contents("php://input");
+
+$data = json_decode($data, true);
+
+if(isset($data['action']))
+    $action = $data["action"];
+
+if(isset($data['complement']))
+    $complement = $data["complement"];
+
 /*
 controls the RESTful services
 URL mapping
@@ -47,7 +58,7 @@ switch($action){
                 break;
             case "statuses":
                 $userRestHandler = new UserRestHandler();
-                $userRestHandler->getStatuses($user_id);
+                $userRestHandler->getStatuses($data);
                 break;
             case "user":
                 $userRestHandler = new UserRestHandler();
@@ -76,6 +87,18 @@ switch($action){
             case "favourite_user":
                 $userRestHandler = new UserRestHandler();
                 $userRestHandler->markUserAsFavourite($user_id, $popular_user_id, $icon);
+                break;
+            case "" :
+                //404 - not found;
+                echo json_encode('not found' + $action + " " + $complement);
+                break;
+        }
+        break;
+    case "search":
+        switch($complement) {
+            case "users":
+                $userRestHandler = new UserRestHandler();
+                $userRestHandler->searchUsers($data);
                 break;
             case "" :
                 //404 - not found;
