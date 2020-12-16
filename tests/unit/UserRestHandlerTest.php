@@ -221,7 +221,7 @@ class UserRestHandlerTest extends TestCase
         $a = array($user, $user2);
         $this->user->method('findAll')->willReturn($a);
         $rest_handler = new UserRestHandler($this->user);
-        $this->assertEquals(200, $rest_handler->getAllUsers($user_id));
+        $this->assertEquals(200, $rest_handler->getAllUsers($user_id, 0, 0));
         unset($_SERVER['HTTP_ACCEPT']);
     }
 
@@ -233,9 +233,9 @@ class UserRestHandlerTest extends TestCase
     public function testFailedFindAllUsers () {
         $_SERVER['HTTP_ACCEPT'] = 'application/json';
         $user_id = 30;
-        $this->user->method('getStatuses')->willReturn(false);
+        $this->user->method('findAll')->willReturn(false);
         $rest_handler = new UserRestHandler($this->user);
-        $this->assertEquals(404, $rest_handler->getAllUsers($user_id));
+        $this->assertEquals(404, $rest_handler->getAllUsers($user_id, 0, 0));
         unset($_SERVER['HTTP_ACCEPT']);
     }
 
@@ -288,7 +288,7 @@ class UserRestHandlerTest extends TestCase
 
         $this->user->method('markUserAsFavourite')->willReturn(1);
         $rest_handler = new UserRestHandler($this->user);
-        $this->assertEquals(200, $rest_handler->markUserAsFavourite(2,3));
+        $this->assertEquals(200, $rest_handler->markUserAsFavourite(2,3,1));
         unset($_SERVER['HTTP_ACCEPT']);
 
     }
@@ -303,7 +303,7 @@ class UserRestHandlerTest extends TestCase
 
         $this->user->method('markUserAsFavourite')->willReturn(4);
         $rest_handler = new UserRestHandler($this->user);
-        $this->assertEquals(404, $rest_handler->markUserAsFavourite(2,3));
+        $this->assertEquals(404, $rest_handler->markUserAsFavourite(2,3, 0));
         unset($_SERVER['HTTP_ACCEPT']);
 
     }
