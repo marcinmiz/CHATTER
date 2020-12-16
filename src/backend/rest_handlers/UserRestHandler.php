@@ -73,11 +73,11 @@ class UserRestHandler extends SimpleRestHandler
         return $statusCode;
     }
 
-    function getStatuses($user_id) {
+    function getStatuses($data) {
 
-        $rawData = $this->user->getStatuses($user_id);
+        $rawData = $this->user->getStatuses($data);
 
-        if($rawData == false) {
+        if($rawData === false) {
             $statusCode = 404;
             $rawData = array('error' => 'No statuses found!');
         } else {
@@ -112,7 +112,7 @@ class UserRestHandler extends SimpleRestHandler
     {
         $rawData = $this->user->find($user_id);
 
-        if ($rawData == false) {
+        if ($rawData === false) {
             $statusCode = 404;
             $rawData = array('error' => 'No users found!');
         } else {
@@ -155,6 +155,21 @@ class UserRestHandler extends SimpleRestHandler
             default:
                 $statusCode = 404;
                 $rawData = array('error' => 'Wrong code!');
+        }
+
+        $this->selectEncoding($statusCode, $rawData);
+        return $statusCode;
+    }
+
+    function searchUsers($data) {
+
+        $rawData = $this->user->searchUsers($data);
+
+        if($rawData === false) {
+            $statusCode = 404;
+            $rawData = array('error' => 'Error occurred during users search!');
+        } else {
+            $statusCode = 200;
         }
 
         $this->selectEncoding($statusCode, $rawData);
