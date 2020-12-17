@@ -48,7 +48,7 @@ body
 .search-input
 {
     height: 33px;
-    width: 70%;
+    width: 75%;
     border-radius: 20px;
     background-color: burlywood;
     text-align: center;
@@ -61,7 +61,7 @@ body
 .search-button
 {
     height: 33px;
-    width: 15%;
+    width: 18%;
     border-radius: 20px;
     background-color: burlywood;
     text-align: center;
@@ -152,4 +152,14 @@ main
 .user-group-add:hover
 {
     color: #d4d4d4;
+}
+
+.search-container label
+{
+    cursor: pointer;
+}
+
+.search-online-users
+{
+    cursor: pointer;
 }
